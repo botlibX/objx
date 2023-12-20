@@ -8,6 +8,7 @@
 
 import json
 import os
+import sys
 import _thread
 
 
@@ -239,3 +240,13 @@ def update(obj, data, empty=True) -> None:
 
 def values(obj) -> []:
     return obj.__dict__.values()
+
+
+def main():
+    o = Object()
+    read(o, sys.argv[1])
+    print(o)
+
+
+if __name__ == "__main__":
+    main()

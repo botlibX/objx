@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "objx"
 description = "object library"
-version = "1"
+version = "2"
 authors = [
     {name = "libbot",email = "libbotx@gmail.com"},
 ]
@@ -30,7 +30,9 @@ classifiers = [
 
 
 [tool.setuptools]
-py-modules = ["objx"]
+packages = [
+    "objx",
+]
 zip-safe=true
 
 
