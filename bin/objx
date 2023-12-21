@@ -18,37 +18,33 @@ import time
 sys.path.insert(0, os.getcwd())
 
 
-from objx import Default, Object, spl
+from objx import Commands, Default, Errors, Event, Group, Handler, Object, Storage
+from objx import forever, launch, parse_command, spl
 
 
-from objx.command import Commands, cmnd
-from objx.errors  import Errors, debug
-from objx.handler import Event, Handler
-from objx.storage import Storage
-from objx.thread  import launch
-from objx.utility import forever, parse
-
-
-try:
+if os.path.exists("mods"):
     import mods as modules
-except ModuleNotFoundError:
+else:
     modules = None
 
 
 Cfg = Default()
 Cfg.mod  = "cmd,dbg,err,fnd,log,mod,mre,pwd,tdo,thr,ver"
-Cfg.name = "bot"
+Cfg.name = "objx"
 Cfg.version = "60"
 Cfg.wd = os.path.expanduser(f"~/.{Cfg.name}")
+
+
 Errors.output = print
 Storage.wd = Cfg.wd
 
 
-class Console(Reactor):
+class Console(Handler):
 
     def __init__(self):
-        Reactor.__init__(self)
+        Handler.__init__(self)
         self.register("command", Commands.handle)
+        Group.add(self)
 
     def announce(self, txt):
         self.say("", txt)
@@ -58,14 +54,21 @@ class Console(Reactor):
         evt.orig = object.__repr__(self)
         evt.txt = input("> ")
         evt.type = "command"
-        parse(evt)
         return evt
 
     def say(self, channel, txt):
         txt = txt.encode('utf-8', 'replace').decode()
-        sys.stdout.write(txt)
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+        print(txt)
+
+
+def cmnd(txt):
+    evn = Event()
+    evn.txt = txt
+    Commands.handle(evn)
+    evn.wait()
+    for txt in evn.result:
+        print(txt)
+    return evn
 
 
 def scan(pkg, modstr, initer=False) -> []:
@@ -108,8 +111,7 @@ def wrap(func) -> None:
 
 
 def main():
-    print(modules)
-    parse(Cfg, " ".join(sys.argv[1:]))
+    parse_command(Cfg, " ".join(sys.argv[1:]))
     if "v" in Cfg.opts:
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")

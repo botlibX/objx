@@ -3,7 +3,7 @@
 # pylint: disable=C,R,W0212,W0702,W0718,E1102,W0613
 
 
-"reactor"
+"handler"
 
 
 import queue
@@ -11,17 +11,17 @@ import threading
 import _thread
 
 
-from . import Default, Object
-
-
-from .errors import Errors
-from .thread import launch
+from .default import Default
+from .group   import Group
+from .object  import Object
+from .errors  import Errors
+from .thread  import launch
 
 
 def __dir__():
     return (
         'Event',
-        'Handler',
+        'Handler'
     )
 
 
@@ -47,7 +47,7 @@ class Event(Default):
 
     def show(self) -> None:
         for txt in self.result:
-            bot = Cache.byorig(self.orig) or Cache.first()
+            bot = Group.byorig(self.orig) or Group.first()
             if bot:
                 bot.say(self.channel, txt)
 

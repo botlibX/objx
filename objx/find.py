@@ -10,10 +10,10 @@ import datetime
 import os
 
 
-from ..default import Default
-from ..object  import fqn, items, read, update, write
-from ..storage import Storage, fntime, strip
-from ..utility import spl
+from .default import Default
+from .object  import fqn, items, read, update, write
+from .storage import Storage, fntime, strip
+from .utility import spl
 
 
 def __dir__():

@@ -7,7 +7,8 @@
 
 
 from .errors import Errors
-from . import Object
+from .object import Object
+from .parse  import parse_command
 
 
 def __dir__():
@@ -17,15 +18,6 @@ def __dir__():
 
 
 __all__ = __dir__()
-
-
-def cmnd(txt):
-    evn = Event()
-    evn.txt = txt
-    parse(evn)
-    Commands.handle(evn)
-    evn.wait()
-    return evn
 
 
 class Commands(Object):
@@ -38,7 +30,7 @@ class Commands(Object):
 
     @staticmethod
     def handle(evt) -> None:
-        #parse(evt)
+        parse_command(evt)
         func = getattr(Commands.cmds, evt.cmd, None)
         if not func:
             evt.ready()

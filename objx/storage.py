@@ -11,7 +11,7 @@ import os
 import time
 
 
-from .  import Object, cdir, fqn, items, read, update, write
+from .object  import Object, cdir, fqn, items, read, update, write
 
 
 from .utility import fntime, strip
