@@ -17,7 +17,7 @@ import time
 import _thread
 
 
-from objx import Cache, Commands, Default, Errors, Event, Handler, Object
+from objx import Cache, Commands, Default, Errors, Event, Group, Handler, Object
 from objx import byorig, edit, fmt, keys
 from objx import debug, launch, last, parse, sync
 
@@ -28,7 +28,7 @@ from objx import debug, launch, last, parse, sync
 Errors.filter = ["PING", "PONG", "PRIVMSG"]
 
 
-NAME = "bot"
+NAME = "objx"
 
 
 saylock = _thread.allocate_lock()
@@ -173,6 +173,7 @@ class IRC(Handler, Output):
         self.register('PRIVMSG', cb_privmsg)
         self.register('QUIT', cb_quit)
         self.register("366", cb_ready)
+        Group.add(self)
 
     def announce(self, txt):
         for channel in self.channels:
