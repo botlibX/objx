@@ -19,7 +19,7 @@ import _thread
 
 from objx import Cache, Commands, Default, Errors, Event, Group, Handler, Object
 from objx import byorig, edit, fmt, keys
-from objx import debug, launch, last, parse, sync
+from objx import debug, launch, last, parse_command, sync
 
 
 "defines"
@@ -36,6 +36,7 @@ saylock = _thread.allocate_lock()
 
 def init():
     irc = IRC()
+    debug(f"irc {fmt(irc.cfg)}")
     irc.start()
     irc.events.joined.wait()
     return irc
@@ -93,17 +94,16 @@ class TextWrap(textwrap.TextWrapper):
 wrapper = TextWrap()
 
 
-class Output(Cache):
+class Output():
 
     def __init__(self):
-        Cache.__init__(self)
         self.dostop = threading.Event()
         self.oqueue = queue.Queue()
 
     def gettxt(self, channel):
         txt = None
         try:
-            che = self.cache.get(channel, None)
+            che = getattr(Cache, channel, None)
             if che:
                 txt = che.pop(0)
         except (KeyError, IndexError):
@@ -111,8 +111,8 @@ class Output(Cache):
         return txt
 
     def oput(self, channel, txt):
-        if channel not in self.cache:
-            self.cache[channel] = []
+        if channel not in dir(Cache):
+            setattr(Cache, channel, [])
         self.oqueue.put_nowait((channel, txt))
 
     def out(self):
@@ -554,7 +554,6 @@ def cb_privmsg(evt):
         if evt.txt:
             evt.txt = evt.txt[0].lower() + evt.txt[1:]
         debug(f"command from {evt.origin}: {evt.txt}")
-        parse(evt)
         Commands.handle(evt)
 
 

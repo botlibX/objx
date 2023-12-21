@@ -10,25 +10,26 @@ import datetime
 import time
 
 
-from objx import Cache, Default, Event, Timer, construct, update
-from objx import find, laps, launch, sync
-
-
+from objx       import Default, Event, Group, Timer
+from objx       import construct, debug, find, laps, launch, sync, update
 from objx.parse import NoDate, today, now, to_time, to_day, get_day, get_hour
 
 
 def init():
+    nrs = 0
     for fnm, obj in find("timer"):
         if "time" not in obj:
             continue
         diff = float(obj.time) - time.time()
         if diff > 0:
-            bot = Cache.first()
+            bot = Group.first()
             evt = Event()
             update(evt, obj)
             evt.orig = object.__repr__(bot)
             tmr = Timer(diff, evt.show)
+            nrs += 1
             launch(tmr.start)
+    debug(f"timer {nrs}")
 
 
 def tmr(event):

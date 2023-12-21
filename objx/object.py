@@ -47,6 +47,9 @@ def spl(txt) -> []:
 class Object:
 
 
+    def __contains__(self, key):
+        return key in self
+
     def __iter__(self):
         ""
         return iter(self.__dict__)
@@ -198,6 +201,8 @@ def fmt(obj, args=None, skip=None, plain=False) -> str:
         skip = []
     txt = ""
     for key in args:
+        if key.startswith("__"):
+            continue
         if key in skip:
             continue
         value = getattr(obj, key, None)

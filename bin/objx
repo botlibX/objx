@@ -19,7 +19,7 @@ sys.path.insert(0, os.getcwd())
 
 
 from objx import Commands, Default, Errors, Event, Group, Handler, Object, Storage
-from objx import forever, launch, parse_command, spl
+from objx import debug, forever, launch, parse_command, spl
 
 
 if os.path.exists("mods"):
@@ -66,8 +66,6 @@ def cmnd(txt):
     evn.txt = txt
     Commands.handle(evn)
     evn.wait()
-    for txt in evn.result:
-        print(txt)
     return evn
 
 
@@ -120,7 +118,7 @@ def main():
         mods = scan(modules, Cfg.mod, Cfg.hasmods)
         if "w" in Cfg.opts:
             for mod in mods:
-                if "_thr_" in dir(mod):
+                if "_thr" in dir(mod):
                     mod._thr.join()
         if "t" in Cfg.opts:
             csl.threaded = True

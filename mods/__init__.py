@@ -7,6 +7,7 @@
 
 
 from . import cmd, dbg, err, fnd, irc, log, mod, mre, pwd, rss, tdo, thr, tmr
+from . import udp
 
 
 def __dir__():
@@ -23,7 +24,8 @@ def __dir__():
         'rss',
         'tdo',
         'thr',
-        'tmr'
+        'tmr',
+        'udp'
     )
 
 

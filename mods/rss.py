@@ -26,6 +26,7 @@ from objx import debug, find, laps, last, launch, sync
 def init():
     fetcher = Fetcher()
     fetcher.start()
+    debug(f"seen {len(fetcher.seen)} urls")
     return fetcher
 
 
