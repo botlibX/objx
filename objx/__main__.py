@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # This file is placed in the Public Domain.
 #
 # pylint: disable=C,R,W0201,W0212,W0105,W0613,W0406,W0611,E0102
@@ -7,8 +6,10 @@
 "main"
 
 
+import getpass
 import inspect
 import os
+import pwd
 import readline
 import sys
 import termios
@@ -19,11 +20,11 @@ sys.path.insert(0, os.getcwd())
 
 
 from objx import Commands, Default, Errors, Event, Group, Handler, Object, Storage
-from objx import debug, forever, launch, parse_command, spl
+from objx import cdir, debug, forever, launch, parse_command, spl
 
 
-if os.path.exists("mods"):
-    import mods as modules
+if os.path.exists("objxmods"):
+    import objxmods as modules
 else:
     modules = None
 
@@ -31,8 +32,10 @@ else:
 Cfg = Default()
 Cfg.mod  = "cmd,dbg,err,fnd,log,mod,mre,pwd,tdo,thr,ver"
 Cfg.name = "objx"
-Cfg.version = "60"
+Cfg.version = "3"
 Cfg.wd = os.path.expanduser(f"~/.{Cfg.name}")
+Cfg.pidfile = os.path.join(Cfg.wd, f"{Cfg.name}.pid")
+Cfg.user    = getpass.getuser()
 
 
 Errors.output = print
@@ -67,6 +70,36 @@ def cmnd(txt):
     Commands.handle(evn)
     evn.wait()
     return evn
+
+
+def daemon(pidfile, verbose=False):
+    pid = os.fork()
+    if pid != 0:
+        os._exit(0)
+    os.setsid()
+    pid2 = os.fork()
+    if pid2 != 0:
+        os._exit(0)
+    if not verbose:
+        with open('/dev/null', 'r', encoding="utf-8") as sis:
+            os.dup2(sis.fileno(), sys.stdin.fileno())
+        with open('/dev/null', 'a+', encoding="utf-8") as sos:
+            os.dup2(sos.fileno(), sys.stdout.fileno())
+        with open('/dev/null', 'a+', encoding="utf-8") as ses:
+            os.dup2(ses.fileno(), sys.stderr.fileno())
+    os.umask(0)
+    os.chdir("/")
+    if os.path.exists(pidfile):
+        os.unlink(pidfile)
+    cdir(os.path.dirname(pidfile))
+    with open(pidfile, "w", encoding="utf-8") as fds:
+        fds.write(str(os.getpid()))
+
+
+def privileges(username):
+    pwnam = pwd.getpwnam(username)
+    os.setgid(pwnam.pw_gid)
+    os.setuid(pwnam.pw_uid)
 
 
 def scan(pkg, modstr, initer=False) -> []:
@@ -111,6 +144,14 @@ def wrap(func) -> None:
 def main():
     parse_command(Cfg, " ".join(sys.argv[1:]))
     if "v" in Cfg.opts:
+        Errors.output = print
+    if "d" in Cfg.opts:
+        daemon(Cfg.pidfile)
+        privileges(Cfg.user)
+        scan(modules, Cfg.mod, True)
+        forever()
+        return
+    if "v" in Cfg.opts:
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
     csl = Console()
@@ -129,6 +170,9 @@ def main():
     cmnd(Cfg.otxt)
 
 
-if __name__ == "__main__":
+def wrapped():
     wrap(main)
     Errors.show()
+
+if __name__ == "__main__":
+    wrapped()
