@@ -185,7 +185,6 @@ class IRC(Handler, Output):
         self.register('PRIVMSG', cb_privmsg)
         self.register('QUIT', cb_quit)
         self.register("366", cb_ready)
-        Group.add(self)
 
     def announce(self, txt):
         for channel in self.channels:

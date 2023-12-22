@@ -142,6 +142,7 @@ def wrap(func) -> None:
 
 
 def main():
+    Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
     if "v" in Cfg.opts:
         Errors.output = print

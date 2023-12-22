@@ -35,6 +35,7 @@ class Handler(Object):
         self.queue    = queue.Queue()
         self.stopped  = threading.Event()
         self.threaded = False
+        Group.add(self)
 
     def callback(self, evt) -> None:
         func = getattr(self.cbs, evt.type, None)

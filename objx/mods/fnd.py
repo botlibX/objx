@@ -13,7 +13,8 @@ from objx.find    import find
 
 def fnd(event):
     if not event.rest:
-        res = sorted([x.split('.')[-1].lower() for x in Storage.files()])
+        Storage.skel()
+        res = sorted([x.split('.')[-1].lower() for x in Storage.types()])
         if res:
             event.reply(",".join(res))
         return

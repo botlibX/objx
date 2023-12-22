@@ -12,8 +12,6 @@ import time
 
 
 from .object  import Object, cdir, fqn, items, read, update, write
-
-
 from .utility import fntime, strip
 
 
@@ -65,6 +63,10 @@ class Storage(Object):
                 if fnm == claz.lower():
                     res = fnm
         return res
+
+    @staticmethod
+    def skel():
+        cdir(os.path.join(Storage.wd, "store", ""))
 
     @staticmethod
     def store(pth="") -> str:
