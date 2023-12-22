@@ -8,8 +8,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "objx"
-description = "object library"
-version = "2"
+description = "objects"
+version = "4"
 authors = [
     {name = "libbot",email = "libbotx@gmail.com"},
 ]
@@ -23,6 +23,9 @@ classifiers = [
     'Topic :: Utilities'
 ]
 
+[project.scripts]
+objx = "objx.__main__:wrapped"
+
 [project.urls]
 "home" = "https://pypi.org/project/objx"
 "bugs" = "https://github.com/botlibx/objx/issues"
@@ -32,6 +35,7 @@ classifiers = [
 [tool.setuptools]
 packages = [
     "objx",
+    "objx.mods"
 ]
 zip-safe=true
 

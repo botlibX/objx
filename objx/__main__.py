@@ -32,7 +32,7 @@ else:
 Cfg = Default()
 Cfg.mod  = "cmd,dbg,err,fnd,log,mod,mre,pwd,tdo,thr,ver"
 Cfg.name = "objx"
-Cfg.version = "3"
+Cfg.version = "4"
 Cfg.wd = os.path.expanduser(f"~/.{Cfg.name}")
 Cfg.pidfile = os.path.join(Cfg.wd, f"{Cfg.name}.pid")
 Cfg.user    = getpass.getuser()
