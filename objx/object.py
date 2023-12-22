@@ -48,7 +48,8 @@ class Object:
 
 
     def __contains__(self, key):
-        return key in self
+        ""
+        return key in dir(self)
 
     def __iter__(self):
         ""

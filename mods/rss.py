@@ -18,7 +18,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode
 
 
-from objx import Cache, Default, Object, Repeater
+from objx import Default, Group, Object, Repeater
 from objx import fmt, fntime, update
 from objx import debug, find, laps, last, launch, sync
 
@@ -26,7 +26,6 @@ from objx import debug, find, laps, last, launch, sync
 def init():
     fetcher = Fetcher()
     fetcher.start()
-    debug(f"seen {len(fetcher.seen)} urls")
     return fetcher
 
 
@@ -111,7 +110,7 @@ class Fetcher(Object):
             txt = f'[{feedname}] '
         for obj in res:
             txt2 = txt + self.display(obj)
-            for bot in Cache.cache["broker"]:
+            for bot in Group.objs:
                 if "announce" in dir(bot):
                     bot.announce(txt2.rstrip())
         return counter

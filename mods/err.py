@@ -6,7 +6,6 @@
 "status of bots"
 
 
-from objx.cache  import Cache
 from objx.group  import Group
 from objx.errors import Errors
 

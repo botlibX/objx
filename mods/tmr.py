@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-#
+# pylint: disable=C,R
 
 
 "timer"
@@ -10,13 +10,14 @@ import datetime
 import time
 
 
-from objx       import Default, Event, Group, Timer
-from objx       import construct, debug, find, laps, launch, sync, update
+from objx import Default, Event, Group, Timer
+from objx import construct, debug, find, laps, launch, sync, update
+
+
 from objx.parse import NoDate, today, now, to_time, to_day, get_day, get_hour
 
 
 def init():
-    nrs = 0
     for fnm, obj in find("timer"):
         if "time" not in obj:
             continue
@@ -27,9 +28,7 @@ def init():
             update(evt, obj)
             evt.orig = object.__repr__(bot)
             tmr = Timer(diff, evt.show)
-            nrs += 1
             launch(tmr.start)
-    debug(f"timer {nrs}")
 
 
 def tmr(event):

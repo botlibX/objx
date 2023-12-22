@@ -17,7 +17,7 @@ import time
 import _thread
 
 
-from objx import Cache, Commands, Default, Errors, Event, Group, Handler, Object
+from objx import Commands, Default, Errors, Event, Group, Handler, Object
 from objx import byorig, edit, fmt, keys
 from objx import debug, launch, last, parse_command, sync
 
@@ -36,7 +36,6 @@ saylock = _thread.allocate_lock()
 
 def init():
     irc = IRC()
-    debug(f"irc {fmt(irc.cfg)}")
     irc.start()
     irc.events.joined.wait()
     return irc
@@ -87,8 +86,8 @@ class TextWrap(textwrap.TextWrapper):
         self.tabsize = 4
         self.width = 400
 
-"output"
 
+"output"
 
 
 wrapper = TextWrap()
@@ -96,14 +95,24 @@ wrapper = TextWrap()
 
 class Output():
 
+    cache = Object()
+
     def __init__(self):
         self.dostop = threading.Event()
         self.oqueue = queue.Queue()
 
+    def dosay(self, channel, txt):
+        raise NotImplementedError
+
+    def extend(self, channel, txtlist):
+        if channel not in self.cache:
+            self.cache[channel] = []
+        self.cache[channel].extend(txtlist)
+
     def gettxt(self, channel):
         txt = None
         try:
-            che = getattr(Cache, channel, None)
+            che = getattr(self.cache, channel, None)
             if che:
                 txt = che.pop(0)
         except (KeyError, IndexError):
@@ -111,8 +120,8 @@ class Output():
         return txt
 
     def oput(self, channel, txt):
-        if channel not in dir(Cache):
-            setattr(Cache, channel, [])
+        if channel not in dir(self.cache):
+            setattr(self.cache, channel, [])
         self.oqueue.put_nowait((channel, txt))
 
     def out(self):
@@ -124,7 +133,7 @@ class Output():
                 break
             txtlist = wrapper.wrap(txt)
             if len(txtlist) > 3:
-                Output.extend(channel, txtlist)
+                self.extend(channel, txtlist)
                 length = len(txtlist)
                 self.say(
                          channel,
@@ -136,8 +145,11 @@ class Output():
                 _nr += 1
                 self.dosay(channel, txt)
 
-    def dosay(self, channel, txt):
-        raise NotImplementedError
+    @staticmethod
+    def size(chan):
+        if chan in Cache:
+            return len(Cache.get(chan, []))
+        return 0
 
 
 "internet relay chat"

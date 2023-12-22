@@ -6,14 +6,14 @@
 "the python3 bot namespace"
 
 
-from . import cache, command, default, errors, handler, object
+from . import command, default, errors, handler, object
 from . import storage, thread, timer, utility
 
 
-from .cache   import *
 from .command import *
 from .default import *
 from .errors  import *
+from .event   import *
 from .find    import *
 from .group   import *
 from .object  import *
@@ -52,9 +52,6 @@ def __parse__():
 
 def __dir__():
     return (
-        'CLI',
-        'Cache',
-        'Censor',
         'Commands',
         'Config',
         'Default',

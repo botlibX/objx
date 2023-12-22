@@ -19,7 +19,6 @@ from objx import Group, Object, debug, fmt, launch
 def init():
     udpd = UDP()
     udpd.start()
-    debug(f"udp {fmt(Cfg)}")
     return udpd
 
 

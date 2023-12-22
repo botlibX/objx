@@ -39,11 +39,7 @@ class Storage(Object):
         Storage.classes[name] = clz
 
     @staticmethod
-    def files() -> []:
-        return os.listdir(Storage.store())
-
-    @staticmethod
-    def fns(mtc) -> []:
+    def fns(mtc="") -> []:
         dname = ''
         pth = Storage.store(mtc)
         for rootdir, dirs, _files in os.walk(pth, topdown=False):
@@ -64,29 +60,16 @@ class Storage(Object):
                 res = named
                 break
         if "." not in res:
-            for fnm in Storage.files():
+            for fnm in Storage.types():
                 claz = fnm.split(".")[-1]
                 if fnm == claz.lower():
                     res = fnm
         return res
 
     @staticmethod
-    def mods() -> str:
-        pth =  Storage.path("mods")
-        cdir(pth)
-        return pth
-
-    @staticmethod
-    def path(pth) -> str:
-        if not pth:
-            pth = ""
-        pth2 =  os.path.join(Storage.wd, pth)
-        cdir(pth2)
-        return pth2
-
-    @staticmethod
     def store(pth="") -> str:
-        pth = os.path.join(Storage.wd, "store", pth)
-        pth2 = os.path.dirname(pth)
-        cdir(pth2)
-        return pth
+        return os.path.join(Storage.wd, "store", pth)
+
+    @staticmethod
+    def types() -> []:
+        return os.listdir(Storage.store())
