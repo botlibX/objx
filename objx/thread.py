@@ -9,7 +9,6 @@
 import queue
 import threading
 import time
-import types
 
 
 from .errors  import Errors

@@ -1,13 +1,13 @@
 # This file is placed in the Public Domain.
 #
-#
+# pylint: disable=C,R,W0612,W0613
 
 
 """ rest interface. """
 
 
-import logging
 import os
+import sys
 import time
 
 
@@ -15,7 +15,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
 from objx import Default, Errors, Object, Storage
-from objx import find, launch
+from objx import debug, launch
 
 
 def init():
@@ -81,9 +81,9 @@ class RESTHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(txt, "utf-8"))
         self.wfile.flush()
 
-    def write_header(self, type='text/plain'):
+    def write_header(self, htype='text/plain'):
         self.send_response(200)
-        self.send_header('Content-type', '%s; charset=%s ' % (type, "utf-8"))
+        self.send_header('Content-type', '%s; charset=%s ' % (htype, "utf-8"))
         self.send_header('Server', "1")
         self.end_headers()
 
@@ -97,7 +97,7 @@ class RESTHandler(BaseHTTPRequestHandler):
             return
         fnm = Storage.wd + os.sep + "store" + os.sep + self.path
         try:
-            f = open(fnm, "r")
+            f = open(fnm, "r", encoding="utf-8")
             txt = f.read()
             f.close()
             self.write_header("txt/plain")

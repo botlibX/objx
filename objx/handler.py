@@ -11,7 +11,6 @@ import threading
 import _thread
 
 
-from .default import Default
 from .group   import Group
 from .object  import Object
 from .errors  import Errors

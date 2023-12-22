@@ -20,7 +20,7 @@ from urllib.parse import quote_plus, urlencode
 
 from objx import Default, Group, Object, Repeater
 from objx import fmt, fntime, update
-from objx import debug, find, laps, last, launch, sync
+from objx import find, laps, last, launch, sync
 
 
 def init():

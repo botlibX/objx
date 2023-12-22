@@ -1,20 +1,19 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R
+# pylint: disable=C,R,W0612.W0702
 
 
 "timer"
 
 
-import datetime
 import time
 
 
-from objx import Default, Event, Group, Timer
-from objx import construct, debug, find, laps, launch, sync, update
+from objx import Event, Group, Timer
+from objx import find, laps, launch, sync, update
 
 
-from objx.parse import NoDate, today, now, to_time, to_day, get_day, get_hour
+from objx.parse import NoDate, today, to_day, get_day, get_hour
 
 
 def init():
@@ -27,8 +26,8 @@ def init():
             evt = Event()
             update(evt, obj)
             evt.orig = object.__repr__(bot)
-            tmr = Timer(diff, evt.show)
-            launch(tmr.start)
+            timer = Timer(diff, evt.show)
+            launch(timer.start)
 
 
 def tmr(event):
@@ -48,11 +47,11 @@ def tmr(event):
     line = ""
     for word in event.args:
         if word.startswith("+"):
-             try:
-                 seconds = int(word[1:])
-             except:
-                 event.reply("%s is not an integer" % seconds)
-                 return
+            try:
+                seconds = int(word[1:])
+            except:
+                event.reply("%s is not an integer" % seconds)
+                return
         else:
             line += word + " "
     if seconds:

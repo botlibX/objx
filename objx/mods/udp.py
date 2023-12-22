@@ -13,7 +13,7 @@ import threading
 import time
 
 
-from objx import Group, Object, debug, fmt, launch
+from objx import Group, Object, launch
 
 
 def init():

@@ -21,7 +21,7 @@ def fnd(event):
     otype = event.args[0]
     clz = Storage.long(otype)
     if "." not in clz:
-        for fnm in Storage.files():
+        for fnm in Storage.types():
             claz = fnm.split(".")[-1]
             if otype == claz.lower():
                 clz = fnm

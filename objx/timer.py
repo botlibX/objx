@@ -6,7 +6,6 @@
 "timer"
 
 
-import re
 import threading
 import time
 

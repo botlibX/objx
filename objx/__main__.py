@@ -23,10 +23,7 @@ from objx import Commands, Default, Errors, Event, Group, Handler, Object, Stora
 from objx import cdir, debug, forever, launch, parse_command, spl
 
 
-if os.path.exists("objxmods"):
-    import objxmods as modules
-else:
-    modules = None
+from objx import mods as modules
 
 
 Cfg = Default()

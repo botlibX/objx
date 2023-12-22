@@ -1,12 +1,11 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E1101,W0718,W0612,E0611
+# pylint: disable=C,R,E1101,W0105,W0718,W0612,E0611
 
 
 "internet relay chat"
 
 
-import base64
 import os
 import queue
 import socket
@@ -17,9 +16,9 @@ import time
 import _thread
 
 
-from objx import Commands, Default, Errors, Event, Group, Handler, Object
+from objx import Commands, Default, Errors, Event, Handler, Object
 from objx import byorig, edit, fmt, keys
-from objx import debug, launch, last, parse_command, sync
+from objx import debug, launch, last, sync
 
 
 "defines"
@@ -104,15 +103,17 @@ class Output():
     def dosay(self, channel, txt):
         raise NotImplementedError
 
-    def extend(self, channel, txtlist):
-        if channel not in self.cache:
-            self.cache[channel] = []
-        self.cache[channel].extend(txtlist)
+    @staticmethod
+    def extend(channel, txtlist):
+        if channel not in Output.cache:
+            Output.cache[channel] = []
+        Output.cache[channel].extend(txtlist)
 
-    def gettxt(self, channel):
+    @staticmethod
+    def gettxt(channel):
         txt = None
         try:
-            che = getattr(self.cache, channel, None)
+            che = getattr(Output.cache, channel, None)
             if che:
                 txt = che.pop(0)
         except (KeyError, IndexError):
@@ -120,8 +121,8 @@ class Output():
         return txt
 
     def oput(self, channel, txt):
-        if channel not in dir(self.cache):
-            setattr(self.cache, channel, [])
+        if channel not in dir(Output.cache):
+            setattr(Output.cache, channel, [])
         self.oqueue.put_nowait((channel, txt))
 
     def out(self):
@@ -147,8 +148,8 @@ class Output():
 
     @staticmethod
     def size(chan):
-        if chan in Cache:
-            return len(Cache.get(chan, []))
+        if chan in Output.cache:
+            return len(Output.cache.get(chan, []))
         return 0
 
 
@@ -484,7 +485,6 @@ class IRC(Handler, Output):
         self.dostop.set()
         self.oput(None, None)
         Handler.stop(self)
-        Cache.remove(self)
 
     def wait(self):
         self.events.ready.wait()
@@ -590,11 +590,3 @@ def cfg(event):
         edit(config, event.sets)
         sync(config, path)
         event.reply('ok')
-
-
-"wrap on lines with x length"
-
-
-import textwrap
-
-
