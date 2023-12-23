@@ -121,19 +121,18 @@ def scan(pkg, modstr, initer=False) -> []:
 
 
 def wrap(func) -> None:
-    old = None
+    old2 = None
     try:
-        old = termios.tcgetattr(sys.stdin.fileno())
+        old2 = termios.tcgetattr(sys.stdin.fileno())
     except termios.error:
         pass
     try:
         func()
-    except (EOFError, KeyboardInterrupt):
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+    except (KeyboardInterrupt, EOFError):
+        print("")
     finally:
-        if old:
-            termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old)
+        if old2:
+            termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old2)
 
 
 def main():

@@ -42,7 +42,6 @@ class UDP(Object):
         self.ready = threading.Event()
 
     def output(self, txt, addr=None):
-        print(txt)
         if addr:
             Cfg.addr = addr
         for bot in Group.objs:
