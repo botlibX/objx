@@ -21,8 +21,6 @@ sys.path.insert(0, os.getcwd())
 
 from objx import Commands, Default, Errors, Event, Group, Handler, Object, Storage
 from objx import cdir, debug, forever, launch, parse_command, spl
-
-
 from objx import mods as modules
 
 
@@ -141,6 +139,8 @@ def wrap(func) -> None:
 def main():
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
+    if "a" in Cfg.opts:
+        Cfg.mods = ",".join(modules.__dir__())
     if "v" in Cfg.opts:
         Errors.output = print
     if "d" in Cfg.opts:
