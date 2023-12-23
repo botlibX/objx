@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C0115,C0116,C0413,E0401,R0903,E0611,C0412,C0103,W0702,R0402
-# pylint: disable=W0718,W0611,W0613,E0102
+# pylint: disable=R,C,W0718,W0611,W0613,E0102,E0401,E0611,W0201,W0702
 
 
 "created clients"
@@ -80,7 +79,6 @@ def consume(evts):
     fixed = []
     res = []
     for evt in evts:
-        print(evt)
         res.append(evt.wait())
         if not evt.result:
             print(f"no result for {evt.cmd}")
@@ -94,8 +92,6 @@ def consume(evts):
 
 
 def cprint(txt):
-    if "v" in Cfg.opts:
-        return
     print(txt.encode('utf-8', 'replace').decode())
     sys.stdout.flush()
 
@@ -137,7 +133,6 @@ def scan(pkg, modstr) -> []:
             Storage.add(clz)
         yield module
 
-
 def wrap(func) -> None:
     old2 = None
     try:
@@ -169,6 +164,8 @@ def main() -> None:
     waiters = []
     for _nr in range(nrs):
         waiters.append(launch(payload, cli, name=f"payload {_nr}"))
+    for thread in waiters:
+        thread.join()
     result = len(waiters)
     consume(events)
     endtime = time.time()
