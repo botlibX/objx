@@ -10,14 +10,15 @@
 import getpass
 import os
 import sys
+import termios
 import time
 
 
 sys.path.insert(0, os.getcwd())
 
 
-from objx import Cfg, Command, Default, Error, Event, Handler, Storage
-from objx import cmnd, debug, forever, main, parse_command, scan, wrap
+from objx import Command, Default, Error, Event, Handler, Storage
+from objx import cmnd, debug, forever, parse_command, scan
 
 
 from objx import mods as modules
@@ -57,11 +58,28 @@ class Console(Handler):
         print(txt)
 
 
+
+def wrap(func) -> None:
+    old2 = None
+    try:
+        old2 = termios.tcgetattr(sys.stdin.fileno())
+    except termios.error:
+        pass
+    try:
+        func()
+    except (KeyboardInterrupt, EOFError):
+        print("")
+    finally:
+        if old2:
+            termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old2)
+
+
 def main():
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
     if "a" in Cfg.opts:
-        Cfg.mods = ",".join(modules.__dir__())
+        Cfg.hasmods = True
+        Cfg.mod = ",".join(modules.__dir__())
     if "v" in Cfg.opts:
         Error.output = print
         dte = time.ctime(time.time()).replace("  ", " ")
@@ -82,10 +100,6 @@ def main():
     cmnd(Cfg.otxt)
 
 
-def wrapped():
+if __name__ == "__main__":
     wrap(main)
     Error.show()
-
-
-if __name__ == "__main__":
-    wrapped()
