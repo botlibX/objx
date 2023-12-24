@@ -17,11 +17,8 @@ from .command import Command
 from .default import Default
 from .error   import Error, debug
 from .event   import Event
-from .group   import Group
-from .handler import Handler
 from .object  import Object, cdir, spl
 from .handler import Handler
-from .object  import Object
 from .parse   import parse_command
 from .storage import Storage
 from .thread  import launch

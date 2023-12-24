@@ -86,19 +86,15 @@ def main():
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
     csl = Console()
-    if "c" in Cfg.opts:
-        mods = scan(modules, Cfg.mod, Cfg.hasmods)
-        if "w" in Cfg.opts:
-            for mod in mods:
-                if "_thr" in dir(mod):
-                    mod._thr.join()
-        if "t" in Cfg.opts:
-            csl.threaded = True
-        csl.start()
-        forever()
-        return
-    scan(modules, Cfg.mod)
-    cmnd(Cfg.otxt)
+    mods = scan(modules, Cfg.mod, Cfg.hasmods)
+    if "w" in Cfg.opts:
+        for mod in mods:
+            if "_thr" in dir(mod):
+                 mod._thr.join()
+    if "t" in Cfg.opts:
+        csl.threaded = True
+    csl.start()
+    forever()
 
 
 if __name__ == "__main__":

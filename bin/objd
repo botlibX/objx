@@ -9,21 +9,17 @@
 
 import getpass
 import os
+import pwd
 import sys
 import time
 
 
-sys.path.insert(0, os.getcwd())
+from objx import Command, Default, Error, Event, Handler, Storage
+from objx import cdir, forever, mods, scan
 
 
-from objx import Cfg, Command, Default, Error, Event, Handler, Storage
-from objx import cmnd, debug, forever, main, parse_command, scan, wrap
-
-
-from objx import mods as modules
-
-
-Cfg.mod     = ",".join(modules.__dir__())
+Cfg         = Default()
+Cfg.mod     = "cmd,dbg,err,fnd,log,irc,mod,mre,pwd,rss,tdo,thr,tmr,ver"
 Cfg.name    = "objx"
 Cfg.version = "5"
 Cfg.wd      = os.path.expanduser(f"~/.{Cfg.name}")
@@ -66,7 +62,7 @@ def main():
     Storage.skel()
     daemon(Cfg.pidfile)
     privileges(Cfg.user)
-    scan(modules, Cfg.mod, True)
+    scan(mods, Cfg.mod, True)
     forever()
 
 
