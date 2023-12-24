@@ -7,7 +7,7 @@
 
 
 from . import command, default, error, handler, object
-from . import repeat, storage, thread, timer, utility
+from . import repeat, run, storage, thread, timer, utility
 
 
 from .command import *
@@ -20,6 +20,7 @@ from .object  import *
 from .parse   import *
 from .handler import *
 from .repeat  import *
+from .run     import *
 from .storage import *
 from .thread  import *
 from .timer   import *

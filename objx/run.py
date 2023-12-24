@@ -16,47 +16,26 @@ import termios
 import time
 
 
-sys.path.insert(0, os.getcwd())
 
-
-from objx import Command, Default, Error, Event, Group, Handler, Object, Storage
-from objx import cdir, debug, forever, launch, parse_command, spl
-from objx import mods as modules
+from .command import Command
+from .default import Default
+from .error   import Error, debug
+from .event   import Event
+from .group   import Group
+from .handler import Handler
+from .object  import Object, cdir, spl
+from .handler import Handler
+from .object  import Object
+from .parse   import parse_command
+from .storage import Storage
+from .thread  import launch
+from .utility import forever
 
 
 Cfg = Default()
-Cfg.mod     = "cmd,dbg,err,fnd,log,mod,mre,pwd,tdo,thr,ver"
-Cfg.name    = "objx"
-Cfg.version = "5"
-Cfg.wd      = os.path.expanduser(f"~/.{Cfg.name}")
-Cfg.pidfile = os.path.join(Cfg.wd, f"{Cfg.name}.pid")
-Cfg.user    = getpass.getuser()
 
 
-Error.output = print
 Storage.wd = Cfg.wd
-
-
-class Console(Handler):
-
-    def __init__(self):
-        Handler.__init__(self)
-        self.register("command", Command.handle)
-        Group.add(self)
-
-    def announce(self, txt):
-        self.say("", txt)
-
-    def poll(self) -> Event:
-        evt = Event()
-        evt.orig = object.__repr__(self)
-        evt.txt = input("> ")
-        evt.type = "command"
-        return evt
-
-    def say(self, channel, txt):
-        txt = txt.encode('utf-8', 'replace').decode()
-        print(txt)
 
 
 def cmnd(txt):
@@ -136,41 +115,16 @@ def wrap(func) -> None:
 
 
 def main():
+    try:
+        import objx.mods as modules
+    except ModuleNotFoundError:
+        modules = None
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
-    if "a" in Cfg.opts:
-        Cfg.mods = ",".join(modules.__dir__())
-    if "v" in Cfg.opts:
-        Error.output = print
-    if "d" in Cfg.opts:
-        daemon(Cfg.pidfile)
-        privileges(Cfg.user)
-        scan(modules, Cfg.mod, True)
-        forever()
-        return
+    if not Cfg.mod:
+        Cfg.mod = ",".join(modules.__dir__())
     if "v" in Cfg.opts:
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
-    csl = Console()
-    if "c" in Cfg.opts:
-        mods = scan(modules, Cfg.mod, Cfg.hasmods)
-        if "w" in Cfg.opts:
-            for mod in mods:
-                if "_thr" in dir(mod):
-                    mod._thr.join()
-        if "t" in Cfg.opts:
-            csl.threaded = True
-        csl.start()
-        forever()
-        return
     scan(modules, Cfg.mod)
     cmnd(Cfg.otxt)
-
-
-def wrapped():
-    wrap(main)
-    Error.show()
-
-
-if __name__ == "__main__":
-    wrapped()
