@@ -72,6 +72,8 @@ class CLI(Handler):
         self.register("command", Command.handle)
 
     def say(self, channel, txt):
+        if "v" not in Cfg.opts:
+            return
         cprint(txt)
 
 
