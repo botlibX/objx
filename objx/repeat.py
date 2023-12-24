@@ -6,10 +6,6 @@
 "repeating"
 
 
-import threading
-import time
-
-
 from .thread import Thread, launch
 from .timer  import Timer
 

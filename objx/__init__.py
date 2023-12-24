@@ -3,7 +3,7 @@
 # pylint: disable=E0603,E0402,W0401,W0614,W0611,W0622
 
 
-"the python3 bot namespace"
+"objects"
 
 
 from . import command, default, error, handler, object

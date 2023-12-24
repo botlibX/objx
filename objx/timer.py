@@ -11,7 +11,7 @@ import time
 
 
 from .object import Object
-from .thread import Thread, launch
+from .thread import launch
 
 
 def __dir__():
