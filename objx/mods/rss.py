@@ -18,7 +18,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode
 
 
-from objx import Default, Group, Object, Repeater
+from objx import Default, Group, Object, Repeat
 from objx import fmt, fntime, update
 from objx import find, laps, last, launch, sync
 
@@ -124,7 +124,7 @@ class Fetcher(Object):
     def start(self, repeat=True):
         Fetcher.seenfn = last(Fetcher.seen)
         if repeat:
-            repeater = Repeater(300.0, self.run)
+            repeater = Repeat(300.0, self.run)
             repeater.start()
 
 

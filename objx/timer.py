@@ -16,18 +16,12 @@ from .thread import Thread, launch
 
 def __dir__():
     return (
-        'Repeater',
-        'Timer'
+        'Timer',
     )
 
 
 __all__ = __dir__()
 
-
-
-class NoDate(Exception):
-
-    pass
 
 
 class Timer(Object):
@@ -64,12 +58,3 @@ class Timer(Object):
         ""
         if self.timer:
             self.timer.cancel()
-
-
-class Repeater(Timer):
-
-    def run(self) -> Thread:
-        ""
-        thr = launch(self.start)
-        super().run()
-        return thr

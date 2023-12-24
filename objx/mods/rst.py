@@ -14,7 +14,7 @@ import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-from objx import Default, Errors, Object, Storage
+from objx import Default, Error, Object, Storage
 from objx import debug, launch
 
 
@@ -66,7 +66,7 @@ class REST(HTTPServer, Object):
     def error(self, request, addr):
         exctype, excvalue, tb = sys.exc_info()
         exc = exctype(excvalue)
-        Errors.add(exc)
+        Error.add(exc)
         debug('%s %s' % (addr, excvalue))
 
 
@@ -104,7 +104,7 @@ class RESTHandler(BaseHTTPRequestHandler):
             self.send(html(txt))
         except (TypeError, FileNotFoundError, IsADirectoryError) as ex:
             self.send_response(404)
-            Errors.add(ex)
+            Error.add(ex)
             self.end_headers()
 
     def log(self, code):

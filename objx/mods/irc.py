@@ -16,7 +16,7 @@ import time
 import _thread
 
 
-from objx import Commands, Default, Errors, Event, Handler, Object
+from objx import Command, Default, Error, Event, Handler, Object
 from objx import byorig, edit, fmt, keys
 from objx import debug, launch, last, sync
 
@@ -24,7 +24,7 @@ from objx import debug, launch, last, sync
 "defines"
 
 
-Errors.filter = ["PING", "PONG", "PRIVMSG"]
+Error.filter = ["PING", "PONG", "PRIVMSG"]
 
 
 NAME = "objx"
@@ -248,7 +248,7 @@ class IRC(Handler, Output):
                ) as ex:
             pass
         except Exception as ex:
-            Errors.errors.append(ex)
+            Error.errors.append(ex)
 
     def doconnect(self, server, nck, port=6667):
         while 1:
@@ -397,7 +397,7 @@ class IRC(Handler, Output):
                     ConnectionResetError,
                     BrokenPipeError
                    ) as ex:
-                Errors.errors.append(ex)
+                Error.add(ex)
                 self.stop()
                 debug("handler stopped")
                 evt = self.event(str(ex))
@@ -424,7 +424,7 @@ class IRC(Handler, Output):
                     ConnectionResetError,
                     BrokenPipeError
                    ) as ex:
-                Errors.errors.append(ex)
+                Error.errors.append(ex)
                 self.stop()
                 return
         self.state.last = time.time()
@@ -565,7 +565,7 @@ def cb_privmsg(evt):
         if evt.txt:
             evt.txt = evt.txt[0].lower() + evt.txt[1:]
         debug(f"command from {evt.origin}: {evt.txt}")
-        Commands.handle(evt)
+        Command.handle(evt)
 
 
 def cb_quit(evt):

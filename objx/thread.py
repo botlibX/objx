@@ -11,7 +11,7 @@ import threading
 import time
 
 
-from .errors  import Errors
+from .error   import Error
 from .utility import name
 
 
@@ -68,6 +68,6 @@ class Thread(threading.Thread):
         except Exception as exc:
             if Thread.debug:
                 raise
-            Errors.add(exc)
+            Error.add(exc)
             if args and "ready" in dir(args[0]):
                 args[0].ready()

@@ -6,19 +6,20 @@
 "the python3 bot namespace"
 
 
-from . import command, default, errors, handler, object
-from . import storage, thread, timer, utility
+from . import command, default, error, handler, object
+from . import repeat, storage, thread, timer, utility
 
 
 from .command import *
 from .default import *
-from .errors  import *
+from .error   import *
 from .event   import *
 from .find    import *
 from .group   import *
 from .object  import *
 from .parse   import *
 from .handler import *
+from .repeat  import *
 from .storage import *
 from .thread  import *
 from .timer   import *
@@ -52,15 +53,15 @@ def __parse__():
 
 def __dir__():
     return (
-        'Commands',
+        'Command',
         'Config',
         'Default',
-        'Errors',
+        'Error',
         'Event',
         'Hander',
         'Object',
         'Output',
-        'Repeater',
+        'Repeat',
         'Storage',
         'Thread',
         'Timer',

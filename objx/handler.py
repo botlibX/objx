@@ -13,7 +13,7 @@ import _thread
 
 from .group   import Group
 from .object  import Object
-from .errors  import Errors
+from .error   import Error
 from .thread  import launch
 
 
@@ -47,7 +47,7 @@ class Handler(Object):
             try:
                 func(evt)
             except Exception as ex:
-                Errors.add(ex)
+                Error.add(ex)
 
     def loop(self) -> None:
         while not self.stopped.is_set():

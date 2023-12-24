@@ -19,21 +19,21 @@ import time
 sys.path.insert(0, os.getcwd())
 
 
-from objx import Commands, Default, Errors, Event, Group, Handler, Object, Storage
+from objx import Command, Default, Error, Event, Group, Handler, Object, Storage
 from objx import cdir, debug, forever, launch, parse_command, spl
 from objx import mods as modules
 
 
 Cfg = Default()
-Cfg.mod  = "cmd,dbg,err,fnd,log,mod,mre,pwd,tdo,thr,ver"
-Cfg.name = "objx"
+Cfg.mod     = "cmd,dbg,err,fnd,log,mod,mre,pwd,tdo,thr,ver"
+Cfg.name    = "objx"
 Cfg.version = "5"
-Cfg.wd = os.path.expanduser(f"~/.{Cfg.name}")
+Cfg.wd      = os.path.expanduser(f"~/.{Cfg.name}")
 Cfg.pidfile = os.path.join(Cfg.wd, f"{Cfg.name}.pid")
 Cfg.user    = getpass.getuser()
 
 
-Errors.output = print
+Error.output = print
 Storage.wd = Cfg.wd
 
 
@@ -41,7 +41,7 @@ class Console(Handler):
 
     def __init__(self):
         Handler.__init__(self)
-        self.register("command", Commands.handle)
+        self.register("command", Command.handle)
         Group.add(self)
 
     def announce(self, txt):
@@ -62,7 +62,7 @@ class Console(Handler):
 def cmnd(txt):
     evn = Event()
     evn.txt = txt
-    Commands.handle(evn)
+    Command.handle(evn)
     evn.wait()
     return evn
 
@@ -107,7 +107,7 @@ def scan(pkg, modstr, initer=False) -> []:
             if key.startswith("cb"):
                 continue
             if 'event' in cmd.__code__.co_varnames:
-                Commands.add(cmd)
+                Command.add(cmd)
         for key, clz in inspect.getmembers(module, inspect.isclass):
             if key.startswith("cb"):
                 continue
@@ -141,7 +141,7 @@ def main():
     if "a" in Cfg.opts:
         Cfg.mods = ",".join(modules.__dir__())
     if "v" in Cfg.opts:
-        Errors.output = print
+        Error.output = print
     if "d" in Cfg.opts:
         daemon(Cfg.pidfile)
         privileges(Cfg.user)
@@ -169,7 +169,8 @@ def main():
 
 def wrapped():
     wrap(main)
-    Errors.show()
+    Error.show()
+
 
 if __name__ == "__main__":
     wrapped()

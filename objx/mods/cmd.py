@@ -6,8 +6,8 @@
 "list of commands"
 
 
-from objx.command import Commands
+from objx.command import Command
 
 
 def cmd(event):
-    event.reply(",".join(sorted(Commands.cmds)))
+    event.reply(",".join(sorted(Command.cmds)))

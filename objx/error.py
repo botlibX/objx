@@ -15,7 +15,7 @@ from .object import Object
 
 def __dir__():
     return (
-        'Errors',
+        'Error',
         'debug'
     )
 
@@ -24,11 +24,11 @@ __all__ = __dir__()
 
 
 def debug(txt):
-    if Errors.output and not Errors.skip(txt):
-        Errors.output(txt)
+    if Error.output and not Error.skip(txt):
+        Error.output(txt)
 
 
-class Errors(Object):
+class Error(Object):
 
     errors = []
     filter = []
@@ -38,7 +38,7 @@ class Errors(Object):
     @staticmethod
     def add(exc) -> None:
         excp = exc.with_traceback(exc.__traceback__)
-        Errors.errors.append(excp)
+        Error.errors.append(excp)
 
     @staticmethod
     def format(exc) -> str:
@@ -56,18 +56,18 @@ class Errors(Object):
 
     @staticmethod
     def handle(exc) -> None:
-        if Errors.output:
-            txt = str(Errors.format(exc))
-            Errors.output(txt)
+        if Error.output:
+            txt = str(Error.format(exc))
+            Error.output(txt)
 
     @staticmethod
     def show() -> None:
-        for exc in Errors.errors:
-            Errors.handle(exc)
+        for exc in Error.errors:
+            Error.handle(exc)
 
     @staticmethod
     def skip(txt) -> bool:
-        for skp in Errors.filter:
+        for skp in Error.filter:
             if skp in str(txt):
                 return True
         return False

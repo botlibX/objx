@@ -7,7 +7,7 @@
 
 
 from objx.group  import Group
-from objx.errors import Errors
+from objx.error  import Error
 
 
 def err(event):
@@ -16,8 +16,8 @@ def err(event):
         if 'state' in dir(bot):
             event.reply(str(bot.state))
             nmr += 1
-    event.reply(f"status: {nmr} errors: {len(Errors.errors)}")
-    for exc in Errors.errors:
-        txt = Errors.format(exc)
+    event.reply(f"status: {nmr} errors: {len(Error.errors)}")
+    for exc in Error.errors:
+        txt = Error.format(exc)
         for line in txt.split():
             event.reply(line)

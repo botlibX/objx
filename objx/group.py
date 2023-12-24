@@ -19,6 +19,10 @@ def __dir__():
 __all__ = __dir__()
 
 
+def byorig(orig):
+    return Group.byorig(orig)
+
+
 class Group(Object):
 
     objs = []    
@@ -43,7 +47,3 @@ class Group(Object):
     def remove(obj):
         if obj in Group.objs:
             Group.objs.remove(obj)
-
-
-def byorig(orig):
-    return Group.byorig(orig)
