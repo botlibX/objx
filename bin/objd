@@ -21,7 +21,7 @@ from objx import cdir, forever, mods, scan
 Cfg         = Default()
 Cfg.mod     = "cmd,dbg,err,fnd,log,irc,mod,mre,pwd,rss,tdo,thr,tmr,ver"
 Cfg.name    = "objx"
-Cfg.version = "5"
+Cfg.version = "6"
 Cfg.wd      = os.path.expanduser(f"~/.{Cfg.name}")
 Cfg.pidfile = os.path.join(Cfg.wd, f"{Cfg.name}.pid")
 Cfg.user    = getpass.getuser()
