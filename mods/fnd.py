@@ -12,8 +12,8 @@ from objx.find    import find
 
 
 def fnd(event):
+    Storage.skel()
     if not event.rest:
-        Storage.skel()
         res = sorted([x.split('.')[-1].lower() for x in Storage.types()])
         if res:
             event.reply(",".join(res))

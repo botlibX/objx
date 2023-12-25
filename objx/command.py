@@ -6,9 +6,13 @@
 "commands"
 
 
+import _thread
+
+
 from .error  import Error, debug
 from .object import Object
 from .parse  import parse_command
+from .thread import launch
 
 
 def __dir__():
@@ -20,6 +24,9 @@ def __dir__():
 __all__ = __dir__()
 
 
+lock = _thread.allocate_lock()
+
+
 class Command(Object):
 
     cmds = Object()
@@ -29,7 +36,7 @@ class Command(Object):
         setattr(Command.cmds, func.__name__, func)
 
     @staticmethod
-    def handle(evt) -> None:
+    def handle(evt):
         parse_command(evt)
         func = getattr(Command.cmds, evt.cmd, None)
         if func:
