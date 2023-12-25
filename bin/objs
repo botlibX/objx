@@ -90,7 +90,7 @@ def main():
     if "w" in Cfg.opts:
         for mod in mods:
             if "_thr" in dir(mod):
-                 mod._thr.join()
+                mod._thr.join()
     if "t" in Cfg.opts:
         csl.threaded = True
     csl.start()
