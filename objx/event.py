@@ -27,7 +27,7 @@ class Event(Default):
     def __init__(self):
         Default.__init__(self)
         self._ready  = threading.Event()
-        self._thrs   = []
+        self._thr    = None
         self.done    = False
         self.orig    = None
         self.result  = []
@@ -46,7 +46,7 @@ class Event(Default):
                 bot.say(self.channel, txt)
 
     def wait(self):
-        for thr in self._thrs:
-            thr.join()
+        if self._thr:
+            self._thr.join()
         self._ready.wait()
         return self.result

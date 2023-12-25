@@ -9,7 +9,6 @@
 import json
 import os
 import pathlib
-import _thread
 
 
 def __dir__():
@@ -28,43 +27,22 @@ def __dir__():
            )
 
 
-lock = _thread.allocate_lock()
-
-
-def cdir(pth) -> None:
-    pth = pathlib.Path(pth)
-    os.makedirs(pth, exist_ok=True)
-
-
-def spl(txt) -> []:
-    try:
-        res = txt.split(',')
-    except (TypeError, ValueError):
-        res = txt
-    return [x for x in res if x]
-
-
 class Object:
 
 
     def __contains__(self, key):
-        ""
         return key in dir(self)
 
     def __iter__(self):
-        ""
         return iter(self.__dict__)
 
     def __len__(self):
-        ""
         return len(self.__dict__)
 
     def __repr__(self):
-        ""
         return dumps(self)
 
     def __str__(self):
-        ""
         return str(self.__dict__)
 
 
@@ -99,12 +77,6 @@ def loads(string, *args, **kw) -> Object:
     kw["cls"] = ObjectDecoder
     kw["object_hook"] = hook
     return json.loads(string, *args, **kw)
-
-
-def read(obj, pth) -> None:
-    with lock:
-        with open(pth, 'r', encoding='utf-8') as ofile:
-            update(obj, load(ofile))
 
 
 class ObjectEncoder(json.JSONEncoder):
@@ -151,13 +123,6 @@ def dump(*args, **kw) -> None:
 def dumps(*args, **kw) -> str:
     kw["cls"] = ObjectEncoder
     return json.dumps(*args, **kw)
-
-
-def write(obj, pth) -> None:
-    with lock:
-        cdir(os.path.dirname(pth))
-        with open(pth, 'w', encoding='utf-8') as ofile:
-            dump(obj, ofile)
 
 
 def construct(obj, *args, **kwargs) -> None:
@@ -246,3 +211,19 @@ def update(obj, data, empty=True) -> None:
 
 def values(obj) -> []:
     return obj.__dict__.values()
+
+
+"utilities"
+
+
+def cdir(pth) -> None:
+    pth = pathlib.Path(pth)
+    os.makedirs(pth, exist_ok=True)
+
+
+def spl(txt) -> []:
+    try:
+        res = txt.split(',')
+    except (TypeError, ValueError):
+        res = txt
+    return [x for x in res if x]

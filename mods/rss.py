@@ -20,7 +20,7 @@ from urllib.parse import quote_plus, urlencode
 
 from objx import Default, Group, Object, Repeat
 from objx import fmt, fntime, update
-from objx import find, laps, last, launch, sync
+from objx import find, laps, last, launch, write
 
 
 def init():
@@ -100,10 +100,10 @@ class Fetcher(Object):
                     Fetcher.seen.urls.append(uurl)
                 counter += 1
                 if self.dosave:
-                    sync(fed)
+                    write(fed)
                 res.append(fed)
         if res:
-            sync(Fetcher.seen, Fetcher.seenfn)
+            write(Fetcher.seen, Fetcher.seenfn)
         txt = ''
         feedname = getattr(feed, 'name', None)
         if feedname:
@@ -220,7 +220,7 @@ def dpl(event):
     for fnm, feed in find('rss', {'rss': event.args[0]}):
         if feed:
             update(feed, setter)
-            sync(feed)
+            write(feed)
     event.reply('ok')
 
 
@@ -232,7 +232,7 @@ def nme(event):
     for fnm, feed in find('rss', selector):
         if feed:
             feed.name = event.args[1]
-            sync(feed)
+            write(feed)
     event.reply('ok')
 
 
@@ -244,7 +244,7 @@ def rem(event):
     for fnm, feed in find('rss', selector):
         if feed:
             feed.__deleted__ = True
-            sync(feed, fnm)
+            write(feed, fnm)
     event.reply('ok')
 
 
@@ -269,5 +269,5 @@ def rss(event):
             return
     feed = Rss()
     feed.rss = event.args[0]
-    sync(feed)
+    write(feed)
     event.reply('ok')

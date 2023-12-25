@@ -11,8 +11,8 @@ import os
 
 
 from .default import Default
-from .object  import fqn, items, read, spl, update, write
-from .storage import Storage
+from .object  import fqn, items, spl, update
+from .storage import Storage, fetch, read, sync, write
 from .utility import fntime, strip
 
 
@@ -20,10 +20,8 @@ def __dir__():
     return (
         'find',
         'ident',
-        'fetch',
         'last',
         'search',
-        'sync'
     )
 
 
@@ -52,12 +50,6 @@ def ident(obj) -> str:
                         os.path.join(*str(datetime.datetime.now()).split())
                        )
 
-
-
-def fetch(obj, pth) -> None:
-    pth2 = Storage.store(pth)
-    read(obj, pth2)
-    return strip(pth)
 
 
 def last(obj, selector=None) -> None:

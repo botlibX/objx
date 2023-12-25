@@ -6,10 +6,11 @@
 "objects"
 
 
-from . import command, default, error, handler, object
+from . import client, command, default, error, handler, object
 from . import repeat, run, storage, thread, timer, utility
 
 
+from .client  import *
 from .command import *
 from .default import *
 from .error   import *

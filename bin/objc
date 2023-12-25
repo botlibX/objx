@@ -12,12 +12,16 @@ import os
 import sys
 
 
-from objx import Command, Default, Error, Handler, Storage
-from objx import cmnd, mods, parse_command, scan
+from objx import Client, Command, Default, Error, Handler, Storage
+from objx import cmnd, parse_command, scan
 
+
+try:
+    import mods
+except:
+    mods = None
 
 Cfg          = Default()
-Cfg.mod      = ",".join(mods.__dir__())
 Cfg.name     = "objx"
 Cfg.version  = "6"
 Cfg.wd       = os.path.expanduser(f"~/.{Cfg.name}")
@@ -27,7 +31,7 @@ Error.output = print
 Storage.wd   = Cfg.wd
 
 
-class CLI(Handler):
+class CLI(Client):
 
     def __init__(self):
         Handler.__init__(self)
@@ -45,6 +49,8 @@ class CLI(Handler):
 def main():
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
+    if mods:
+        Cfg.mod      = ",".join(mods.__dir__())
     cli = CLI()
     scan(mods, Cfg.mod)
     cmnd(Cfg.otxt)

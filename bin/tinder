@@ -20,10 +20,16 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from objx import Command, Default, Error, Event, Handler, Object, Storage
+from objx import Client, Command, Default, Error, Event, Handler, Object
+from objx import Storage
 from objx import keys, laps, launch, parse_command, spl
-from objx import mods as modules
 
+
+try:
+    import mods as modules
+except:
+    modules = None
+    
 
 STARTTIME = time.time()
 
@@ -65,11 +71,7 @@ param.rss = ["http://hnrss.org/newest"]
 param.ver = [""]
 
 
-class CLI(Handler):
-
-    def __init__(self):
-        Handler.__init__(self)
-        self.register("command", Command.handle)
+class CLI(Client):
 
     def say(self, channel, txt):
         if "v" not in Cfg.opts:
@@ -100,6 +102,7 @@ def cprint(txt):
 
 def payload(clt) -> None:
     cmds = list(keys(Command.cmds))
+    random.shuffle(cmds)
     with paylock:
         nmr = 0
         for cmd in cmds:
@@ -108,11 +111,9 @@ def payload(clt) -> None:
                 evt.orig = object.__repr__(clt)
                 evt.txt = cmd + " " + ex
                 evt.type = "command"
-                if "t" in Cfg.opts:
-                    clt.put(evt)
-                    events.append(evt)
-                else:
-                    Command.handle(evt)
+                print(evt)
+                clt.put(evt)
+                events.append(evt)
                 nmr += 1
         return nmr
 
@@ -160,22 +161,18 @@ def main() -> None:
     for mod in scan(modules, Cfg.mod):
         mod.DEBUG = True
     nrs = Cfg.index or 1
+    nrcommand = len(Command.cmds) or 1
     cli = CLI()
-    if "t" in Cfg.opts:
-        cli.threaded = True
     cli.start()
     waiters = []
     for _nr in range(nrs):
         waiters.append(launch(payload, cli, name=f"payload {_nr}"))
-    result = 0
-    for thread in waiters:
-        result += thread.join()
     consume(events)
     endtime = time.time()
     lap = laps(endtime - STARTTIME)
-    percall = (endtime - STARTTIME)/result
-    print(f"{lap} {result} {percall}")
-
+    percall = (endtime - STARTTIME)/(nrs * nrcommand)
+    print(modules)
+    print(f"{lap} {nrs} {nrcommand} {percall}")
 
 if __name__ == "__main__":
     wrap(main)

@@ -18,10 +18,7 @@ import _thread
 
 from objx import Command, Default, Error, Event, Handler, Object
 from objx import byorig, edit, fmt, keys
-from objx import debug, launch, last, sync
-
-
-"defines"
+from objx import debug, launch, last, write
 
 
 Error.filter = ["PING", "PONG", "PRIVMSG"]
@@ -38,9 +35,6 @@ def init():
     irc.start()
     irc.events.joined.wait()
     return irc
-
-
-"configuration"
 
 
 class Config(Default):
@@ -71,9 +65,6 @@ class Config(Default):
         self.username = self.username or Config.username
 
 
-"textwrapper"
-
-
 class TextWrap(textwrap.TextWrapper):
 
     def __init__(self):
@@ -84,9 +75,6 @@ class TextWrap(textwrap.TextWrapper):
         self.replace_whitespace = True
         self.tabsize = 4
         self.width = 400
-
-
-"output"
 
 
 wrapper = TextWrap()
@@ -151,9 +139,6 @@ class Output():
         if chan in Output.cache:
             return len(Output.cache.get(chan, []))
         return 0
-
-
-"internet relay chat"
 
 
 class IRC(Handler, Output):
@@ -490,9 +475,6 @@ class IRC(Handler, Output):
         self.events.ready.wait()
 
 
-"callbacks"
-
-
 def cb_auth(evt):
     bot = byorig(evt.orig)
     bot.command(f'AUTHENTICATE {bot.cfg.password}')
@@ -575,6 +557,9 @@ def cb_quit(evt):
         bot.stop()
 
 
+"commands"
+
+
 def cfg(event):
     config = Config()
     path = last(config)
@@ -588,5 +573,5 @@ def cfg(event):
                    )
     else:
         edit(config, event.sets)
-        sync(config, path)
+        write(config, path)
         event.reply('ok')

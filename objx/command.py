@@ -6,7 +6,7 @@
 "commands"
 
 
-from .error  import Error
+from .error  import Error, debug
 from .object import Object
 from .parse  import parse_command
 
@@ -32,12 +32,10 @@ class Command(Object):
     def handle(evt) -> None:
         parse_command(evt)
         func = getattr(Command.cmds, evt.cmd, None)
-        if not func:
-            evt.ready()
-            return
-        try:
-            func(evt)
-            evt.show()
-        except Exception as exc:
-            Error.add(exc)
+        if func:
+            try:
+                func(evt)
+                evt.show()
+            except Exception as exc:
+                Error.add(exc)
         evt.ready()

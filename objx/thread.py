@@ -25,16 +25,7 @@ def __dir__():
 __all__ = __dir__()
 
 
-def launch(func, *args, **kwargs):
-    nme = kwargs.get("name", name(func))
-    thread = Thread(func, nme, *args, **kwargs)
-    thread.start()
-    return thread
-
-
 class Thread(threading.Thread):
-
-    debug = False
 
     def __init__(self, func, thrname, *args, daemon=True, **kwargs):
         super().__init__(None, self.run, thrname, (), {}, daemon=daemon)
@@ -58,11 +49,20 @@ class Thread(threading.Thread):
 
     def run(self) -> None:
         func, args = self.queue.get()
+        self._result = func(*args)
         try:
             self._result = func(*args)
         except Exception as exc:
-            if Thread.debug:
-                raise
             Error.add(exc)
             if args and "ready" in dir(args[0]):
                 args[0].ready()
+
+
+"utilities"
+
+
+def launch(func, *args, **kwargs):
+    nme = kwargs.get("name", name(func))
+    thread = Thread(func, nme, *args, **kwargs)
+    thread.start()
+    return thread

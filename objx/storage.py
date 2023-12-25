@@ -7,19 +7,25 @@
 
 
 import os
+import _thread
 
 
-from .object  import Object, cdir
+from .object  import Object, cdir, dump, load, update
 from .utility import strip
 
 
 def __dir__():
     return (
         'Storage',
+        'read',
+        'write'
     )
 
 
 __all__ = __dir__()
+
+
+lock = _thread.allocate_lock()
 
 
 class Storage(Object):
@@ -73,3 +79,30 @@ class Storage(Object):
     @staticmethod
     def types() -> []:
         return os.listdir(Storage.store())
+
+
+def read(obj, pth) -> None:
+    pth2 = Storage.store(pth)
+    read(obj, pth2)
+    return strip(pth)
+
+
+def fetch(obj, pth) -> None:
+    with lock:
+        with open(pth, 'r', encoding='utf-8') as ofile:
+            update(obj, load(ofile))
+
+
+def write(obj, pth=None) -> str:
+    if pth is None:
+        pth = ident(obj)
+    pth2 = Storage.store(pth)
+    write(obj, pth2)
+    return pth
+
+
+def sync(obj, pth) -> None:
+    with lock:
+        cdir(os.path.dirname(pth))
+        with open(pth, 'w', encoding='utf-8') as ofile:
+            dump(obj, ofile)

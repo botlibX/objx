@@ -21,7 +21,10 @@ from objx import Command, Default, Error, Event, Handler, Storage
 from objx import cmnd, debug, forever, parse_command, scan
 
 
-from objx import mods as modules
+if os.path.exists("mods"):
+    import mods as modules
+else:
+    modules = None
 
 
 Cfg         = Default()

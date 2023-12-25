@@ -10,7 +10,7 @@ import time
 
 
 from objx import Event, Group, Timer
-from objx import find, laps, launch, sync, update
+from objx import find, laps, launch, update, write
 
 
 from objx.parse import NoDate, today, to_day, get_day, get_hour
@@ -74,5 +74,5 @@ def tmr(event):
     event.result.append(event.rest)
     timer = Timer(diff, event.show)
     update(timer, event)
-    sync(timer)
+    write(timer)
     launch(timer.start)
