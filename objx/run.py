@@ -1,28 +1,19 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,W0201,W0212,W0105,W0613,W0406,W0611,E0102
+# pylint: disable=C,R,W0212
 
 
 "main"
 
 
 import inspect
-import os
-import readline
-import time
-
 
 
 from .command import Command
-from .default import Default
-from .error   import Error, debug
 from .event   import Event
-from .object  import Object, cdir, spl
-from .handler import Handler
-from .parse   import parse_command
+from .object  import Object, spl
 from .storage import Storage
 from .thread  import launch
-from .utility import forever
 
 
 def __dir__():

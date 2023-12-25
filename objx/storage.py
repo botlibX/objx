@@ -1,18 +1,16 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,W0105,E0402,W0611
+# pylint: disable=C,R,W0105,E0402
 
 
 "directory of objects"
 
 
-import datetime
 import os
-import time
 
 
-from .object  import Object, cdir, fqn, items, read, update, write
-from .utility import fntime, strip
+from .object  import Object, cdir
+from .utility import strip
 
 
 def __dir__():

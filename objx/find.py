@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,W0105,E0402,W0611
+# pylint: disable=C,R,W0105,E0402
 
 
 "find objects"
@@ -11,9 +11,9 @@ import os
 
 
 from .default import Default
-from .object  import fqn, items, read, update, write
-from .storage import Storage, fntime, strip
-from .utility import spl
+from .object  import fqn, items, read, spl, update, write
+from .storage import Storage
+from .utility import fntime, strip
 
 
 def __dir__():

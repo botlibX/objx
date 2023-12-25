@@ -4,4 +4,4 @@ grep -R __import__ objx
 grep -R sys objx
 grep -R termios objx
 grep -R "import pwd" objx
-
+grep -R "import os" objx
