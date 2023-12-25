@@ -21,7 +21,10 @@ from objx import Command, Default, Error, Event, Handler, Storage
 from objx import debug, forever, parse_command, scan
 
 
-from objx import mods as modules
+if os.path.exists("mods"):
+    import mods
+else:
+    mods = None
 
 
 Cfg         = Default()
@@ -59,7 +62,6 @@ class Console(Handler):
         print(txt)
 
 
-
 def wrap(func) -> None:
     old2 = None
     try:
@@ -79,20 +81,17 @@ def main():
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
     if "a" in Cfg.opts:
-        Cfg.hasmods = True
-        Cfg.mod = ",".join(modules.__dir__())
+        Cfg.mod = ",".join(mods.__dir__())
     if "v" in Cfg.opts:
         Error.output = print
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
     csl = Console()
-    mods = scan(modules, Cfg.mod, Cfg.hasmods)
+    modules = scan(mods, Cfg.mod, True)
     if "w" in Cfg.opts:
-        for mod in mods:
+        for mod in modules:
             if "_thr" in dir(mod):
                 mod._thr.join()
-    if "t" in Cfg.opts:
-        csl.threaded = True
     csl.start()
     forever()
 

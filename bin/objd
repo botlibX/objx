@@ -14,7 +14,13 @@ import sys
 
 
 from objx import Default, Storage
-from objx import cdir, forever, mods, scan
+from objx import cdir, forever, scan
+
+
+if os.path.exists("mods"):
+    import mods
+else:
+    mods = None
 
 
 Cfg         = Default()
