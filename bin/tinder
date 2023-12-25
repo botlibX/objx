@@ -167,9 +167,9 @@ def main() -> None:
     waiters = []
     for _nr in range(nrs):
         waiters.append(launch(payload, cli, name=f"payload {_nr}"))
+    result = 0
     for thread in waiters:
-        thread.join()
-    result = len(waiters)
+        result += thread.join()
     consume(events)
     endtime = time.time()
     lap = laps(endtime - STARTTIME)

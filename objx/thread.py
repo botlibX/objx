@@ -37,7 +37,6 @@ class Thread(threading.Thread):
     debug = False
 
     def __init__(self, func, thrname, *args, daemon=True, **kwargs):
-        ""
         super().__init__(None, self.run, thrname, (), {}, daemon=daemon)
         self._result   = None
         self.name      = thrname or name(func)
@@ -47,21 +46,17 @@ class Thread(threading.Thread):
         self.queue.put_nowait((func, args))
 
     def __iter__(self):
-        ""
         return self
 
     def __next__(self):
-        ""
         for k in dir(self):
             yield k
 
     def join(self, timeout=None) -> type:
-        ""
         super().join(timeout)
         return self._result
 
     def run(self) -> None:
-        ""
         func, args = self.queue.get()
         try:
             self._result = func(*args)
