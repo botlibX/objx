@@ -16,7 +16,7 @@ import time
 import _thread
 
 
-from objx import Command, Default, Error, Event, Handler, Object
+from objx import Client, Command, Default, Error, Event, Object
 from objx import byorig, edit, fmt, keys
 from objx import debug, launch, last, write
 
@@ -141,10 +141,10 @@ class Output():
         return 0
 
 
-class IRC(Handler, Output):
+class IRC(Client, Output):
 
     def __init__(self):
-        Handler.__init__(self)
+        Client.__init__(self)
         Output.__init__(self)
         self.buffer = []
         self.cfg = Config()
@@ -455,7 +455,7 @@ class IRC(Handler, Output):
         self.events.connected.clear()
         self.events.joined.clear()
         launch(Output.out, self)
-        Handler.start(self)
+        Client.start(self)
         launch(
                self.doconnect,
                self.cfg.server or "localhost",
@@ -469,7 +469,7 @@ class IRC(Handler, Output):
         self.disconnect()
         self.dostop.set()
         self.oput(None, None)
-        Handler.stop(self)
+        Client.stop(self)
 
     def wait(self):
         self.events.ready.wait()

@@ -12,7 +12,7 @@ import os
 
 from .default import Default
 from .object  import fqn, items, spl, update
-from .storage import Storage, fetch, read, sync, write
+from .storage import Storage, fetch, ident, read, sync, write
 from .utility import fntime, strip
 
 
@@ -33,7 +33,7 @@ def find(mtc, selector=None, index=None) -> []:
     nr = -1
     for fnm in sorted(Storage.fns(clz), key=fntime):
         obj = Default()
-        fetch(obj, fnm)
+        read(obj, fnm)
         if '__deleted__' in obj:
             continue
         if selector and not search(obj, selector):
@@ -42,13 +42,6 @@ def find(mtc, selector=None, index=None) -> []:
         if index is not None and nr != int(index):
             continue
         yield (fnm, obj)
-
-
-def ident(obj) -> str:
-    return os.path.join(
-                        fqn(obj),
-                        os.path.join(*str(datetime.datetime.now()).split())
-                       )
 
 
 
@@ -81,11 +74,3 @@ def search(obj, selector) -> bool:
                 res = False
                 break
     return res
-
-
-def sync(obj, pth=None) -> str:
-    if pth is None:
-        pth = ident(obj)
-    pth2 = Storage.store(pth)
-    write(obj, pth2)
-    return pth

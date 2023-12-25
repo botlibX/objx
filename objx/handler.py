@@ -11,7 +11,6 @@ import threading
 import _thread
 
 
-from .group   import Group
 from .object  import Object
 from .error   import Error
 from .thread  import launch
@@ -33,7 +32,6 @@ class Handler(Object):
         self.cbs      = Object()
         self.queue    = queue.Queue()
         self.stopped  = threading.Event()
-        Group.add(self)
 
     def callback(self, evt) -> None:
         func = getattr(self.cbs, evt.type, None)

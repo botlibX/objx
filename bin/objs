@@ -9,6 +9,7 @@
 
 import getpass
 import os
+import readline
 import sys
 import termios
 import time
@@ -17,7 +18,7 @@ import time
 sys.path.insert(0, os.getcwd())
 
 
-from objx import Command, Default, Error, Event, Handler, Storage
+from objx import Client, Command, Default, Error, Event, Handler, Storage
 from objx import debug, forever, parse_command, scan
 
 
@@ -40,11 +41,7 @@ Error.output = print
 Storage.wd   = os.path.expanduser("~/.objx")
 
 
-class Console(Handler):
-
-    def __init__(self):
-        Handler.__init__(self)
-        self.register("command", Command.handle)
+class Console(Client):
 
     def announce(self, txt):
         if "v" in Cfg.opts:
@@ -83,16 +80,13 @@ def main():
     if "a" in Cfg.opts:
         Cfg.mod = ",".join(mods.__dir__())
     if "v" in Cfg.opts:
-        Error.output = print
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
     csl = Console()
-    modules = scan(mods, Cfg.mod, True)
-    if "w" in Cfg.opts:
-        for mod in modules:
-            if "_thr" in dir(mod):
-                mod._thr.join()
     csl.start()
+    for mod in scan(mods, Cfg.mod, True):
+        if "_thr" in dir(mod):
+            mod._thr.join()
     forever()
 
 

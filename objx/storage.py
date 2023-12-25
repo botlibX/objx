@@ -6,11 +6,12 @@
 "directory of objects"
 
 
+import datetime
 import os
 import _thread
 
 
-from .object  import Object, cdir, dump, load, update
+from .object  import Object, cdir, dump, fqn, load, update
 from .utility import strip
 
 
@@ -81,28 +82,38 @@ class Storage(Object):
         return os.listdir(Storage.store())
 
 
-def fetch(obj, pth) -> None:
+def read(obj, pth) -> None:
     pth2 = Storage.store(pth)
-    read(obj, pth2)
+    fetch(obj, pth2)
     return strip(pth)
 
 
-def read(obj, pth) -> None:
+def fetch(obj, pth) -> None:
     with lock:
         with open(pth, 'r', encoding='utf-8') as ofile:
             update(obj, load(ofile))
 
 
-def sync(obj, pth=None) -> str:
+def write(obj, pth=None) -> str:
     if pth is None:
         pth = ident(obj)
     pth2 = Storage.store(pth)
-    write(obj, pth2)
+    sync(obj, pth2)
     return pth
 
 
-def write(obj, pth) -> None:
+def sync(obj, pth) -> None:
     with lock:
         cdir(os.path.dirname(pth))
         with open(pth, 'w', encoding='utf-8') as ofile:
             dump(obj, ofile)
+
+
+"utilities"
+
+
+def ident(obj) -> str:
+    return os.path.join(
+                        fqn(obj),
+                        os.path.join(*str(datetime.datetime.now()).split())
+                       )

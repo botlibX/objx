@@ -20,15 +20,15 @@ import _thread
 sys.path.insert(0, os.getcwd())
 
 
-from objx import Client, Command, Default, Error, Event, Handler, Object
+from objx import Client, Command, Default, Error, Event, Object
 from objx import Storage
 from objx import keys, laps, launch, parse_command, spl
 
 
 try:
-    import mods as modules
+    import mods
 except:
-    modules = None
+    mods = None
     
 
 STARTTIME = time.time()
@@ -102,7 +102,7 @@ def cprint(txt):
 
 def payload(clt) -> None:
     cmds = list(keys(Command.cmds))
-    random.shuffle(cmds)
+    #random.shuffle(cmds)
     with paylock:
         nmr = 0
         for cmd in cmds:
@@ -111,7 +111,6 @@ def payload(clt) -> None:
                 evt.orig = object.__repr__(clt)
                 evt.txt = cmd + " " + ex
                 evt.type = "command"
-                print(evt)
                 clt.put(evt)
                 events.append(evt)
                 nmr += 1
@@ -158,7 +157,7 @@ def main() -> None:
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
     Error.output = cprint
-    for mod in scan(modules, Cfg.mod):
+    for mod in scan(mods, Cfg.mod):
         mod.DEBUG = True
     nrs = Cfg.index or 1
     nrcommand = len(Command.cmds) or 1
@@ -171,7 +170,7 @@ def main() -> None:
     endtime = time.time()
     lap = laps(endtime - STARTTIME)
     percall = (endtime - STARTTIME)/(nrs * nrcommand)
-    print(modules)
+    print(mods)
     print(f"{lap} {nrs} {nrcommand} {percall}")
 
 if __name__ == "__main__":
