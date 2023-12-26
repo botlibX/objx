@@ -17,7 +17,8 @@ from objx import construct, keys, laps, launch
 
 def __dir__():
     return (
-            "now",
+            'init',
+            'now'
            ) 
 
 
@@ -29,7 +30,7 @@ def init():
             evt.txt = ""
             evt.rest = key
             sec = seconds(val)
-            repeater = Repeater(sec, cbstats, evt, thrname=aliases.get(key))
+            repeater = Repeat(sec, cbstats, evt, thrname=aliases.get(key))
             repeater.start()
     launch(daily, name="daily")
     
