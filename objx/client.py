@@ -1,11 +1,23 @@
 # This file is placed in the Public Domain.
 #
-#
+# pylint: disable=C,R,W0613
+
+
+"client"
 
 
 from .command import Command
 from .group   import Group
 from .handler import Handler
+
+
+def __dir__():
+    return (
+         "Client",
+    )
+
+
+__all__ = __dir__()
 
 
 class Client(Handler):

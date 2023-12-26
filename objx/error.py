@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E1102
+# pylint: disable=C,R,E1102,W0105
 
 
 "errors"
@@ -21,11 +21,6 @@ def __dir__():
 
 
 __all__ = __dir__()
-
-
-def debug(txt):
-    if Error.output and not Error.skip(txt):
-        Error.output(txt)
 
 
 class Error(Object):
@@ -71,3 +66,11 @@ class Error(Object):
             if skp in str(txt):
                 return True
         return False
+
+
+"utilities"
+
+
+def debug(txt):
+    if Error.output and not Error.skip(txt):
+        Error.output(txt)

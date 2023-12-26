@@ -6,14 +6,10 @@
 "find objects"
 
 
-import datetime
-import os
-
-
 from .default import Default
 from .object  import fqn, items, spl, update
-from .storage import Storage, fetch, ident, read, sync, write
-from .utility import fntime, strip
+from .storage import Storage, ident, read
+from .utility import fntime
 
 
 def __dir__():

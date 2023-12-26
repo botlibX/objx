@@ -21,13 +21,10 @@ def __dir__():
         'get_day',
         'get_hour',
         'get_time',
-        'hms',
-        'now',
         'parse_command',
         'parse_time',
         'to_day',
         'to_time',
-        'year'
     )
 
 
@@ -42,26 +39,7 @@ year_formats = [
 ]
 
 
-timere = re.compile(r'(\S+)\s+(\S+)\s+(\d+)\s+(\d+):(\d+):(\d+)\s+(\d+)')
-
-
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
-
-monthint = {
-    'Jan': 1,
-    'Feb': 2,
-    'Mar': 3,
-    'Apr': 4,
-    'May': 5,
-    'Jun': 6,
-    'Jul': 7,
-    'Aug': 8,
-    'Sep': 9,
-    'Oct': 10,
-    'Nov': 11,
-    'Dec': 12 
-}
 
 
 class NoDate(Exception):
@@ -133,14 +111,6 @@ def get_time(txt):
     return target
 
 
-def hms():
-    return str(datetime.datetime.today()).split()[1].split(".")[0]
-
-
-def now():
-    return str(datetime.datetime.now())
-
-
 def parse_command(obj, txt=None) -> None:
     args = []
     obj.args    = obj.args or []
@@ -192,7 +162,6 @@ def parse_command(obj, txt=None) -> None:
         obj.txt  = obj.cmd + " " + obj.rest
     else:
         obj.txt = obj.cmd or ""
-
 
 
 def parse_time(txt):
@@ -274,7 +243,3 @@ def to_time(daystr):
         except: pass
     if not res: raise NoDate(daystr)
     return res
-
-
-def year():
-    return str(datetime.datetime.now().year)

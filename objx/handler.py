@@ -12,7 +12,6 @@ import _thread
 
 
 from .object  import Object
-from .error   import Error
 from .thread  import launch
 
 

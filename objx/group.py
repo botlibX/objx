@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E1101,W0718,W0612,E0611
+# pylint: disable=C,R,E1101,W0718,W0612,E0611,W0105
 
 
 "list of bots"
@@ -17,10 +17,6 @@ def __dir__():
 
 
 __all__ = __dir__()
-
-
-def byorig(orig):
-    return Group.byorig(orig)
 
 
 class Group(Object):
@@ -47,3 +43,10 @@ class Group(Object):
     def remove(obj):
         if obj in Group.objs:
             Group.objs.remove(obj)
+
+
+"utilities"
+
+
+def byorig(orig):
+    return Group.byorig(orig)

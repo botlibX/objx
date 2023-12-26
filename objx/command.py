@@ -9,10 +9,9 @@
 import _thread
 
 
-from .error  import Error, debug
+from .error  import Error
 from .object import Object
 from .parse  import parse_command
-from .thread import launch
 
 
 def __dir__():
