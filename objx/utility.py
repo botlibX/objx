@@ -3,7 +3,7 @@
 # pylint: disable=C,R
 
 
-"core utilities"
+"utilities"
 
 
 import os
@@ -11,6 +11,21 @@ import pathlib
 import time
 import types
 import _thread
+
+
+def __dir__():
+    return (
+        'cdir',
+        'fntime',
+        'forever',
+        'laps',
+        'name',
+        'spl',
+        'strip'
+    )
+
+
+__all__ = __dir__()
 
 
 def cdir(pth) -> None:

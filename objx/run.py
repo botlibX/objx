@@ -3,7 +3,7 @@
 # pylint: disable=C,R,W0212
 
 
-"main"
+"runtime"
 
 
 import inspect
@@ -21,6 +21,9 @@ def __dir__():
         'cmnd',
         'scan'
     )
+
+
+__all__ = __dir__()
 
 
 def cmnd(txt):

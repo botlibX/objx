@@ -22,7 +22,6 @@ __all__ = __dir__()
 class Repeat(Timer):
 
     def run(self) -> Thread:
-        ""
         thr = launch(self.start)
         super().run()
         return thr

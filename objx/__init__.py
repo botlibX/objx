@@ -41,15 +41,11 @@ def __parse__():
         'laps',
         'get_hour',
         'last',
-        'now',
         'parse_command',
-        'hms',
         'parse_time',
         'scan',
-        'to_time',
         'sync',
         'to_day',
-        'year'
     ) + __parse__()
 
 

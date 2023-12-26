@@ -3,7 +3,7 @@
 # pylint: disable=C,R,W0718
 
 
-"commands"
+"command"
 
 
 import _thread

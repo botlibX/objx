@@ -15,16 +15,21 @@ def __dir__():
     return (
             'Object',
             'construct',
+            'dump',
+            'dumps',
             'edit',
             'fmt',
             'fqn',
             'items',
             'keys',
-            'read',
+            'load',
+            'loads',
             'update',
             'values',
-            'write'
            )
+
+
+__all__ = __dir__()
 
 
 class Object:
@@ -44,6 +49,9 @@ class Object:
 
     def __str__(self):
         return str(self.__dict__)
+
+
+"decoder"
 
 
 class ObjectDecoder(json.JSONDecoder):
@@ -77,6 +85,9 @@ def loads(string, *args, **kw) -> Object:
     kw["cls"] = ObjectDecoder
     kw["object_hook"] = hook
     return json.loads(string, *args, **kw)
+
+
+"encoder"
 
 
 class ObjectEncoder(json.JSONEncoder):
@@ -123,6 +134,25 @@ def dump(*args, **kw) -> None:
 def dumps(*args, **kw) -> str:
     kw["cls"] = ObjectEncoder
     return json.dumps(*args, **kw)
+
+
+"utilities"
+
+
+def cdir(pth) -> None:
+    pth = pathlib.Path(pth)
+    os.makedirs(pth, exist_ok=True)
+
+
+def spl(txt) -> []:
+    try:
+        res = txt.split(',')
+    except (TypeError, ValueError):
+        res = txt
+    return [x for x in res if x]
+
+
+"methods"
 
 
 def construct(obj, *args, **kwargs) -> None:
@@ -212,18 +242,3 @@ def update(obj, data, empty=True) -> None:
 def values(obj) -> []:
     return obj.__dict__.values()
 
-
-"utilities"
-
-
-def cdir(pth) -> None:
-    pth = pathlib.Path(pth)
-    os.makedirs(pth, exist_ok=True)
-
-
-def spl(txt) -> []:
-    try:
-        res = txt.split(',')
-    except (TypeError, ValueError):
-        res = txt
-    return [x for x in res if x]

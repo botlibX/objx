@@ -57,9 +57,6 @@ class Thread(threading.Thread):
                 args[0].ready()
 
 
-"utilities"
-
-
 def launch(func, *args, **kwargs):
     nme = kwargs.get("name", name(func))
     thread = Thread(func, nme, *args, **kwargs)

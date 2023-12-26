@@ -82,16 +82,22 @@ class Storage(Object):
         return os.listdir(Storage.store())
 
 
-def read(obj, pth) -> None:
-    pth2 = Storage.store(pth)
-    fetch(obj, pth2)
-    return strip(pth)
-
-
 def fetch(obj, pth) -> None:
     with lock:
         with open(pth, 'r', encoding='utf-8') as ofile:
             update(obj, load(ofile))
+
+
+def ident(obj) -> str:
+    return os.path.join(
+                        fqn(obj),
+                        os.path.join(*str(datetime.datetime.now()).split())
+                       )
+
+def read(obj, pth) -> None:
+    pth2 = Storage.store(pth)
+    fetch(obj, pth2)
+    return strip(pth)
 
 
 def write(obj, pth=None) -> str:
@@ -108,12 +114,3 @@ def sync(obj, pth) -> None:
         with open(pth, 'w', encoding='utf-8') as ofile:
             dump(obj, ofile)
 
-
-"utilities"
-
-
-def ident(obj) -> str:
-    return os.path.join(
-                        fqn(obj),
-                        os.path.join(*str(datetime.datetime.now()).split())
-                       )

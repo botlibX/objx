@@ -12,13 +12,13 @@ import os
 import sys
 
 
-from objx import Client, Command, Default, Error, Handler, Storage
+from objx import Client, Default, Error, Storage
 from objx import cmnd, parse_command, scan
 
 
-try:
+if os.path.exists("mods"):
     import mods
-except:
+else:
     mods = None
 
 Cfg          = Default()

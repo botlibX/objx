@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E1102,W0105
+# pylint: disable=C,R,E1102
 
 
 "errors"
@@ -66,9 +66,6 @@ class Error(Object):
             if skp in str(txt):
                 return True
         return False
-
-
-"utilities"
 
 
 def debug(txt):

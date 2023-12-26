@@ -23,8 +23,7 @@ def __dir__():
         'get_time',
         'parse_command',
         'parse_time',
-        'to_day',
-        'to_time',
+        'to_day'
     )
 
 
@@ -200,46 +199,3 @@ def to_day(daystr):
         if res:
             return res
         line = ""
-
-
-def to_time(daystr):
-    daystr = str(daystr)
-    daystr = daystr.split(".")[0]
-    daystr = daystr.replace("GMT", "CEST")
-    daystr = daystr.replace("_", ":")
-    daystr = " ".join([x.capitalize() for x in daystr.split() if not x[0] in ["+", "-"]])
-    res = 0
-    try: res = ttime.mktime(ttime.strptime(daystr, r"%a, %d %b %Y %H:%M:%S"))
-    except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%a, %d %b %Y %H:%M:%S %z"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%a, %d %b %Y %H:%M:%S %z"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%a %d %b %H:%M:%S %Y"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%a %d %b %H:%M:%S %Y %z"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%Y-%m-%d %H:%M:%S"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%d-%m-%Y %H:%M:%S"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%d-%m-%Y %H:%M"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%Y-%m-%d %H:%M"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%Y-%m-%d"))
-        except: pass
-    if not res:
-        try: res = ttime.mktime(ttime.strptime(daystr, r"%d-%m-%Y"))
-        except: pass
-    if not res: raise NoDate(daystr)
-    return res
