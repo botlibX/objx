@@ -19,13 +19,13 @@ sys.path.insert(0, os.getcwd())
 
 
 from objx import Client, Default, Error, Event, Storage
-from objx import debug, forever, parse_command, scan
+from objx import debug, forever, mods, parse_command, scan
 
 
 if os.path.exists("mods"):
-    import mods
+    import mods as modules
 else:
-    mods = None
+    modules = None
 
 
 Cfg         = Default()
@@ -79,11 +79,14 @@ def main():
     parse_command(Cfg, " ".join(sys.argv[1:]))
     if "a" in Cfg.opts:
         Cfg.mod = ",".join(mods.__dir__())
+        if modules:
+            Cfg.mod += ",".join(modules.__dir__())
     if "v" in Cfg.opts:
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
     csl = Console()
     csl.start()
+    scan(modules, Cfg.mod)
     for mod in scan(mods, Cfg.mod, True):
         if "_thr" in dir(mod):
             mod._thr.join()

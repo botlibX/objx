@@ -12,14 +12,14 @@ import os
 import sys
 
 
-from objx import Client, Default, Error, Storage
-from objx import cmnd, parse_command, scan
+from objx import Client, Command, Default, Error, Storage
+from objx import cmnd, mods, parse_command, scan
 
 
 if os.path.exists("mods"):
-    import mods
+    import mods as modules
 else:
-    mods = None
+    modules = None
 
 Cfg          = Default()
 Cfg.name     = "objx"
@@ -45,9 +45,11 @@ class CLI(Client):
 def main():
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
-    if mods:
-        Cfg.mod      = ",".join(mods.__dir__())
+    Cfg.mod = ",".join(mods.__dir__())
+    if modules:
+        Cfg.mod += ",".join(modules.__dir__())
     cli = CLI()
+    scan(modules, Cfg.mod)
     scan(mods, Cfg.mod)
     cmnd(Cfg.otxt)
     Error.show()
