@@ -336,7 +336,9 @@ def cbnow(evt):
         nrtimes = int(delta/needed)
         txt += "%s: %s " % (getalias(name), nrtimes)
     txt += " http://genocide.rtfd.io"
-    Broker.announce(txt)
+    for bot in Group.objs:
+        if "announce" in dir(bot):
+            bot.announce(txt)
 
 
 def cbstats(evt):
