@@ -6,10 +6,12 @@
 "find objects"
 
 
-from .default import Default
-from .object  import fqn, items, spl, update
-from .storage import Storage, ident, read
-from .utility import fntime
+import os
+import time
+
+
+from obj import Default, fqn, ident, items, update
+from prg import Storage, read
 
 
 def __dir__():
@@ -70,3 +72,27 @@ def search(obj, selector) -> bool:
                 res = False
                 break
     return res
+
+
+"utility"
+
+
+def fntime(daystr) -> float:
+    daystr = daystr.replace('_', ':')
+    datestr = ' '.join(daystr.split(os.sep)[-2:])
+    if '.' in datestr:
+        datestr, rest = datestr.rsplit('.', 1)
+    else:
+        rest = ''
+    timed = time.mktime(time.strptime(datestr, '%Y-%m-%d %H:%M:%S'))
+    if rest:
+        timed += float('.' + rest)
+    return timed
+
+
+def spl(txt) -> []:
+    try:
+        res = txt.split(',')
+    except (TypeError, ValueError):
+        res = txt
+    return [x for x in res if x]

@@ -186,7 +186,7 @@
 """
 
 
-__author__ = "B.H.J. Thate <thatebhj@gmail.com>"
+__author__ = "Bart Thate <libbotx@gmail.com>"
 __version__ = 1
 
 

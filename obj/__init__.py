@@ -1,14 +1,14 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,W0105,E0402,W0622,W0102
+# pylint: disable=E0603,E0402,W0401,W0614,W0611,W0622
 
 
 "a clean namespace"
 
 
+import datetime
 import json
-import os
-import pathlib
+import sys
 
 
 def __dir__():
@@ -20,6 +20,7 @@ def __dir__():
             'edit',
             'fmt',
             'fqn',
+            'ident',
             'items',
             'keys',
             'load',
@@ -136,22 +137,6 @@ def dumps(*args, **kw) -> str:
     return json.dumps(*args, **kw)
 
 
-"utilities"
-
-
-def cdir(pth) -> None:
-    pth = pathlib.Path(pth)
-    os.makedirs(pth, exist_ok=True)
-
-
-def spl(txt) -> []:
-    try:
-        res = txt.split(',')
-    except (TypeError, ValueError):
-        res = txt
-    return [x for x in res if x]
-
-
 "methods"
 
 
@@ -220,6 +205,12 @@ def fqn(obj) -> str:
     return kin
 
 
+def ident(obj) -> str:
+    return os.path.join(
+                        fqn(obj),
+                        os.path.join(*str(datetime.datetime.now()).split())
+                       )
+
 def items(obj) -> []:
     if isinstance(obj, type({})):
         return obj.items()
@@ -242,3 +233,6 @@ def update(obj, data, empty=True) -> None:
 def values(obj) -> []:
     return obj.__dict__.values()
 
+
+from .default import *
+from .groups  import *

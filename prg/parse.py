@@ -7,22 +7,26 @@
 
 
 import datetime
+import os
 import re
 import time as ttime
 
 
-from .default import Default
+from obj import Default
 
 
 def __dir__():
     return (
         'NoDate',
-        'today',
+        'fntime',
         'get_day',
         'get_hour',
         'get_time',
+        'laps',
         'parse_command',
         'parse_time',
+        'spl',
+        'today',
         'to_day'
     )
 
@@ -46,10 +50,6 @@ class NoDate(Exception):
     pass
 
 
-def today():
-    return str(datetime.datetime.today()).split()[0]
-
-
 def extract_date(daystr):
     for fmt in year_formats:
         try:
@@ -58,6 +58,19 @@ def extract_date(daystr):
             res = None
         if res:
             return res
+
+
+def fntime(daystr) -> float:
+    daystr = daystr.replace('_', ':')
+    datestr = ' '.join(daystr.split(os.sep)[-2:])
+    if '.' in datestr:
+        datestr, rest = datestr.rsplit('.', 1)
+    else:
+        rest = ''
+    timed = ttime.mktime(ttime.strptime(datestr, '%Y-%m-%d %H:%M:%S'))
+    if rest:
+        timed += float('.' + rest)
+    return timed
 
 
 def get_day(daystr):
@@ -108,6 +121,45 @@ def get_time(txt):
     if hour:
         target += hour
     return target
+
+
+def laps(seconds, short=True) -> str:
+    txt = ""
+    nsec = float(seconds)
+    if nsec < 1:
+        return f"{nsec:.2f}s"
+    yea = 365*24*60*60
+    week = 7*24*60*60
+    nday = 24*60*60
+    hour = 60*60
+    minute = 60
+    yeas = int(nsec/yea)
+    nsec -= yeas*yea
+    weeks = int(nsec/week)
+    nsec -= weeks*week
+    nrdays = int(nsec/nday)
+    nsec -= nrdays*nday
+    hours = int(nsec/hour)
+    nsec -= hours*hour
+    minutes = int(nsec/minute)
+    nsec -= int(minute*minutes)
+    sec = int(nsec)
+    if yeas:
+        txt += f"{yeas}y"
+    if weeks:
+        nrdays += weeks * 7
+    if nrdays:
+        txt += f"{nrdays}d"
+    if short and txt:
+        return txt.strip()
+    if hours:
+        txt += f"{hours}h"
+    if minutes:
+        txt += f"{minutes}m"
+    if sec:
+        txt += f"{sec}s"
+    txt = txt.strip()
+    return txt
 
 
 def parse_command(obj, txt=None) -> None:
@@ -185,6 +237,14 @@ def parse_time(txt):
     return target
 
 
+def spl(txt) -> []:
+    try:
+        res = txt.split(',')
+    except (TypeError, ValueError):
+        res = txt
+    return [x for x in res if x]
+
+
 def to_day(daystr):
     previous = ""
     line = ""
@@ -199,3 +259,7 @@ def to_day(daystr):
         if res:
             return res
         line = ""
+
+
+def today():
+    return str(datetime.datetime.today()).split()[0]

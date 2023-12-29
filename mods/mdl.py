@@ -11,8 +11,8 @@ import datetime
 import time
 
 
-from objx import Group, Event, Object, Repeat
-from objx import construct, keys, laps, launch
+from obj import Object, construct, keys
+from prg import Event, Fleet, Repeater, laps, launch
 
 
 def __dir__():
@@ -30,7 +30,7 @@ def init():
             evt.txt = ""
             evt.rest = key
             sec = seconds(val)
-            repeater = Repeat(sec, cbstats, evt, thrname=aliases.get(key))
+            repeater = Repeater(sec, cbstats, evt, thrname=aliases.get(key))
             repeater.start()
     launch(daily, name="daily")
     
@@ -336,7 +336,7 @@ def cbnow(evt):
         nrtimes = int(delta/needed)
         txt += "%s: %s " % (getalias(name), nrtimes)
     txt += " http://genocide.rtfd.io"
-    for bot in Group.objs:
+    for bot in Fleet.objs:
         if "announce" in dir(bot):
             bot.announce(txt)
 
@@ -359,7 +359,7 @@ def cbstats(evt):
                                                                laps(needed),
                                                                nryear,
                                                               )
-        for bot in Broker.objs:
+        for bot in Fleet.objs:
             bot.announce(txt)
 
 

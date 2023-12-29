@@ -8,11 +8,11 @@
 
 import datetime
 import os
+import pathlib
 import _thread
 
 
-from .object  import Object, cdir, dump, fqn, load, update
-from .utility import strip
+from obj import Object, dump, fqn, load, update
 
 
 def __dir__():
@@ -113,4 +113,16 @@ def sync(obj, pth) -> None:
         cdir(os.path.dirname(pth))
         with open(pth, 'w', encoding='utf-8') as ofile:
             dump(obj, ofile)
+
+
+"utility"
+
+
+def cdir(pth) -> None:
+    pth = pathlib.Path(pth)
+    os.makedirs(pth, exist_ok=True)
+
+
+def strip(pth, nmr=3) -> str:
+    return os.sep.join(pth.split(os.sep)[-nmr:])
 
