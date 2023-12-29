@@ -24,7 +24,7 @@ from prg import byorig, debug, last, launch, write
 Error.filter = ["PING", "PONG", "PRIVMSG"]
 
 
-NAME = "bot"
+NAME = "objx"
 
 
 saylock = _thread.allocate_lock()

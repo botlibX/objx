@@ -55,6 +55,44 @@ class Console(Client):
         print(txt)
 
 
+def daemon(pidfile, verbose=False):
+    pid = os.fork()
+    if pid != 0:
+        os._exit(0)
+    os.setsid()
+    pid2 = os.fork()
+    if pid2 != 0:
+        os._exit(0)
+    if not verbose:
+        with open('/dev/null', 'r', encoding="utf-8") as sis:
+            os.dup2(sis.fileno(), sys.stdin.fileno())
+        with open('/dev/null', 'a+', encoding="utf-8") as sos:
+            os.dup2(sos.fileno(), sys.stdout.fileno())
+        with open('/dev/null', 'a+', encoding="utf-8") as ses:
+            os.dup2(ses.fileno(), sys.stderr.fileno())
+    os.umask(0)
+    os.chdir("/")
+    if os.path.exists(pidfile):
+        os.unlink(pidfile)
+    cdir(os.path.dirname(pidfile))
+    with open(pidfile, "w", encoding="utf-8") as fds:
+        fds.write(str(os.getpid()))
+
+
+def privileges(username):
+    pwnam = pwd.getpwnam(username)
+    os.setgid(pwnam.pw_gid)
+    os.setuid(pwnam.pw_uid)
+
+
+def main():
+    Storage.skel()
+    daemon(Cfg.pidfile)
+    privileges(Cfg.user)
+    scan(mods, Cfg.mod, True)
+    forever()
+
+
 def wrap(func) -> None:
     old2 = None
     try:
@@ -73,12 +111,6 @@ def wrap(func) -> None:
 "runtime"
 
 
-if os.path.exists("mods"):
-    import mods
-else:
-    mods = None
-
-
 def main():
     Storage.skel()
     parse_command(Cfg, " ".join(sys.argv[1:]))
@@ -89,6 +121,24 @@ def main():
     if "v" in Cfg.opts:
         dte = time.ctime(time.time()).replace("  ", " ")
         debug(f"{Cfg.name.upper()} started {Cfg.opts.upper()} started {dte}")
+    if "d" in Cfg.opts:
+        moddir      = os.path.join(Storage.wd, "mods")
+        if os.path.exists(moddir):
+            sys.path.insert(0, os.path.dirname(moddir))
+            import mods
+        else:
+            mods = None
+
+        daemon(Cfg.pidfile)
+        privileges(Cfg.user)
+        scan(modules, Cfg.mod, True)
+        scan(mods, Cfg.mod, True)
+        forever()
+        return
+    if os.path.exists("mods"):
+        import mods
+    else:
+        mods = None
     csl = Console()
     if "c" in Cfg.opts:
         scan(modules, Cfg.mod, True, True)
