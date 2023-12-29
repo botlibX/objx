@@ -11,10 +11,14 @@ name = "objx"
 description = "objects"
 version = "6"
 authors = [
-    {name = "libbot",email = "libbotx@gmail.com"},
+    {name = "Bart Thate",email = "libbotx@gmail.com"},
 ]
 readme = "README.rst"
 license = {text="Public Domain"}
+dependencies = [
+    "libobj",
+    "libprg"
+]
 classifiers = [ 
     'Development Status :: 3 - Alpha',
     'License :: Public Domain',
