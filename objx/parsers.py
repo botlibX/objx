@@ -12,7 +12,7 @@ import re
 import time as ttime
 
 
-from obj import Default
+from .default import Default
 
 
 def __dir__():
@@ -34,15 +34,29 @@ def __dir__():
 __all__ = __dir__()
 
 
+bdmonths = [
+    'Bo',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+]
+
+
 year_formats = [
     "%Y-%m-%d",
     "%d-%m-%Y",
     "%d-%m",
     "%m-%d",
 ]
-
-
-bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 
 class NoDate(Exception):

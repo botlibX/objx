@@ -12,7 +12,7 @@ import pathlib
 import _thread
 
 
-from obj import Object, dump, fqn, load, update
+from .objects import Object, dump, fqn, load, update
 
 
 def __dir__():
@@ -125,4 +125,3 @@ def cdir(pth) -> None:
 
 def strip(pth, nmr=3) -> str:
     return os.sep.join(pth.split(os.sep)[-nmr:])
-

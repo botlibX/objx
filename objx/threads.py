@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # This file is placed in the Public Domain.
 #
 # pylint: disable=C,R,W0201,W0212,W0105,W0613,W0406,E0102,W0611,W0718,W0125
@@ -13,10 +12,27 @@ import time
 import types
 
 
-from obj import Object
+from .excepts import Error
+from .objects import Object, name
 
 
-from .error import Error
+def __dir__():
+    return (
+       'Repeater',
+       'Thread',
+       'Timer',
+       'launch'
+    )
+
+
+__all__ = __dir__()
+
+
+def launch(func, *args, **kwargs):
+    nme = kwargs.get("name", name(func))
+    thread = Thread(func, nme, *args, **kwargs)
+    thread.start()
+    return thread
 
 
 class Thread(threading.Thread):
@@ -89,25 +105,3 @@ class Repeater(Timer):
         thr = launch(self.start)
         super().run()
         return thr
-
-
-def launch(func, *args, **kwargs):
-    nme = kwargs.get("name", name(func))
-    thread = Thread(func, nme, *args, **kwargs)
-    thread.start()
-    return thread
-
-
-def name(obj) -> str:
-    typ = type(obj)
-    if isinstance(typ, types.ModuleType):
-        return obj.__name__
-    if '__self__' in dir(obj):
-        return f'{obj.__self__.__class__.__name__}.{obj.__name__}'
-    if '__class__' in dir(obj) and '__name__' in dir(obj):
-        return f'{obj.__class__.__name__}.{obj.__name__}'
-    if '__class__' in dir(obj):
-        return f"{obj.__class__.__module__}.{obj.__class__.__name__}"
-    if '__name__' in dir(obj):
-        return f'{obj.__class__.__name__}.{obj.__name__}'
-    return None

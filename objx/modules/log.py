@@ -9,8 +9,7 @@
 import time
 
 
-from obj import Object
-from prg import find, fntime, laps, write
+from .. import Object, find, fntime, laps, write
 
 
 class Log(Object):

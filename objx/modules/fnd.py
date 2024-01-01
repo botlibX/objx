@@ -6,8 +6,7 @@
 "locate"
 
 
-from obj import fmt
-from prg import Storage, find
+from .. import Storage, find, fmt
 
 
 def fnd(event):

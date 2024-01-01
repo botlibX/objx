@@ -10,8 +10,7 @@ import threading
 import time
 
 
-from obj import Object, update
-from prg import laps
+from .. import Object, laps, update
 
 
 STARTTIME = time.time()

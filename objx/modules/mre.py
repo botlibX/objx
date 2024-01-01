@@ -3,7 +3,7 @@
 # pylint: disable=C,R
 
 
-from prg import byorig
+from .. import byorig
 
 
 def mre(event):

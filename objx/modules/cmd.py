@@ -6,7 +6,7 @@
 "list of commands"
 
 
-from prg import Command
+from .. import Command
 
 
 def cmd(event):

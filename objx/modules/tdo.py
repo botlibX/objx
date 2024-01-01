@@ -9,8 +9,7 @@
 import time
 
 
-from obj import Object
-from prg import fntime, find, laps, write
+from .. import Object, fntime, find, laps, write
 
 
 class NoDate(Exception):

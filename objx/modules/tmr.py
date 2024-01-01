@@ -9,10 +9,9 @@
 import time
 
 
-from obj import update
-from prg import Event, Fleet, Timer
-from prg import find, laps, launch, write
-from prg import NoDate, today, to_day, get_day, get_hour
+from .. import Event, Fleet, Timer
+from .. import find, laps, launch, update, write
+from .. import NoDate, today, to_day, get_day, get_hour
 
 
 def init():

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # This file is placed in the Public Domain.
 #
 # pylint: disable=C,R,W0201,W0212,W0105,W0613,W0406,E0102,W0611,W0718,W0125
@@ -11,7 +10,17 @@ import io
 import traceback
 
 
-from obj import Object
+from .objects import Object
+
+
+def __dir__():
+    return (
+        'Error',
+        'debug'
+    )
+
+
+__all__ = __dir__()
 
 
 class Error(Object):

@@ -11,7 +11,7 @@ import os
 import time
 
 
-from obj import Object, find, fntime, write, update
+from .. import Object, find, fmt, fntime, laps, write, update
 
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -88,7 +88,7 @@ def cor(event):
             txt = ",".join(event.args[1:])
         else:
             txt = "From,Subject"
-        event.reply("%s %s %s" % (nr, prt(email, txt, plain=True), elapsed(time.time() - fntime(email.__stp__))))
+        event.reply("%s %s %s" % (nr, fmt(email, txt, plain=True), laps(time.time() - fntime(email.__stp__))))
 
 
 
@@ -100,7 +100,7 @@ def eml(event):
     for fn, o in find("email"):
         if event.rest in o.text:
             nr += 1
-            event.reply("%s %s %s" % (nr, prt(o, "From,Subject"), elapsed(time.time() - fntime(fn))))
+            event.reply("%s %s %s" % (nr, fmt(o, "From,Subject"), laps(time.time() - fntime(fn))))
 
 
 
