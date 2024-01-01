@@ -40,18 +40,23 @@ class Object:
 
 
     def __contains__(self, key):
+        "see if object contains attribute"
         return key in dir(self)
 
     def __iter__(self):
+        "iterate over attributes"
         return iter(self.__dict__)
 
     def __len__(self):
+        "return number of attributes"
         return len(self.__dict__)
 
     def __repr__(self):
+        "return json string"
         return dumps(self)
 
     def __str__(self):
+        "return python3 string"
         return str(self.__dict__)
 
 
