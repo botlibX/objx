@@ -6,8 +6,10 @@
 "commands"
 
 
+from . import Object
+
+
 from .excepts import Error
-from .objects import Object
 from .parsers import parse_command
 
 

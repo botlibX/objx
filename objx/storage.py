@@ -12,7 +12,7 @@ import pathlib
 import _thread
 
 
-from .objects import Object, dump, fqn, load, update
+from . import Object, dump, fqn, load, update
 
 
 def __dir__():

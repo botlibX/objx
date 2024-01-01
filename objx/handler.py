@@ -11,7 +11,9 @@ import threading
 import _thread
 
 
-from .objects import Object
+from . import Object
+
+
 from .threads import launch
 
 

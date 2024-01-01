@@ -16,12 +16,14 @@ import time
 import _thread
 
 
+from . import Object
+
+
 from .clients import Client
 from .command import Command
 from .default import Default
 from .excepts import Error, debug
 from .message import Event
-from .objects import Object
 from .parsers import parse_command, spl
 from .storage import Storage, cdir
 from .threads import launch

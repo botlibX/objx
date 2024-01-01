@@ -12,8 +12,10 @@ import time
 import types
 
 
+from . import Object
+
+
 from .excepts import Error
-from .objects import Object
 
 
 def __dir__():

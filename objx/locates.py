@@ -10,7 +10,9 @@ import os
 import time
 
 
-from .objects import fqn, items, update
+from . import fqn, items, update
+
+
 from .default import Default
 from .storage import Storage, ident, read
 
