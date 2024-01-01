@@ -47,8 +47,8 @@ __all__ = __dir__()
 
 Cfg         = Default()
 Cfg.mod     = "cmd,err,mod,mre,pwd,thr"
-Cfg.name    = "op"
-Cfg.version = "5"
+Cfg.name    = "objx"
+Cfg.version = "21"
 Cfg.wd      = os.path.expanduser(f"~/.{Cfg.name}")
 Cfg.pidfile = os.path.join(Cfg.wd, f"{Cfg.name}.pid")
 Cfg.user    = getpass.getuser()
