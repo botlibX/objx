@@ -11,8 +11,8 @@ import datetime
 import time
 
 
-from .. import Object, construct, keys
-from .. import Event, Fleet, Repeater, laps, launch
+from ..defines import Object, construct, keys
+from ..defines import Event, Fleet, Repeater, laps, launch
 
 
 def __dir__():

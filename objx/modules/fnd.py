@@ -6,7 +6,7 @@
 "locate"
 
 
-from .. import Storage, find, fmt
+from ..defines import Storage, find, fmt
 
 
 def fnd(event):

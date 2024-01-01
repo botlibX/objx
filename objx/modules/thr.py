@@ -10,7 +10,7 @@ import threading
 import time
 
 
-from .. import Object, laps, update
+from ..defines import Object, laps, update
 
 
 STARTTIME = time.time()

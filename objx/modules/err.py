@@ -6,7 +6,7 @@
 "status of bots"
 
 
-from .. import Error, Fleet
+from ..defines import Error, Fleet
 
 
 def err(event):

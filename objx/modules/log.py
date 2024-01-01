@@ -9,7 +9,7 @@
 import time
 
 
-from .. import Object, find, fntime, laps, write
+from ..defines import Object, find, fntime, laps, write
 
 
 class Log(Object):

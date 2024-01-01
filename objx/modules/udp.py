@@ -13,7 +13,7 @@ import threading
 import time
 
 
-from .. import Fleet, Object, launch
+from ..defines import Fleet, Object, launch
 
 
 def init():

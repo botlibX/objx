@@ -6,11 +6,7 @@
 "a clean namespace"
 
 
-import datetime
 import json
-import os
-import sys
-import types
 
 
 def __dir__():
@@ -22,12 +18,10 @@ def __dir__():
             'edit',
             'fmt',
             'fqn',
-            'ident',
             'items',
             'keys',
             'load',
             'loads',
-            'name',
             'update',
             'values',
            )
@@ -40,23 +34,23 @@ class Object:
 
 
     def __contains__(self, key):
-        "see if object contains attribute"
+        "see if attribute is available."
         return key in dir(self)
 
     def __iter__(self):
-        "iterate over attributes"
+        "iterate over attributes."
         return iter(self.__dict__)
 
     def __len__(self):
-        "return number of attributes"
+        "return number of attributes."
         return len(self.__dict__)
 
     def __repr__(self):
-        "return json string"
+        "return json string."
         return dumps(self)
 
     def __str__(self):
-        "return python3 string"
+        "return python string."
         return str(self.__dict__)
 
 
@@ -65,17 +59,22 @@ class Object:
 
 class ObjectDecoder(json.JSONDecoder):
 
+    "decode from json string."
+
     def decode(self, s, _w=None):
+        "decode a json string."
         val = json.JSONDecoder.decode(self, s)
         if not val:
             val = {}
         return hook(val)
 
     def raw_decode(self, s, idx=0):
+        "decode raw text at index."
         return json.JSONDecoder.raw_decode(self, s, idx)
 
 
 def hook(objdict, typ=None) -> Object:
+    "construct with json data."
     if typ:
         obj = typ()
     else:
@@ -85,12 +84,14 @@ def hook(objdict, typ=None) -> Object:
 
 
 def load(fpt, *args, **kw) -> Object:
+    "load from disk."
     kw["cls"] = ObjectDecoder
     kw["object_hook"] = hook
     return json.load(fpt, *args, **kw)
 
 
 def loads(string, *args, **kw) -> Object:
+    "load from string."
     kw["cls"] = ObjectDecoder
     kw["object_hook"] = hook
     return json.loads(string, *args, **kw)
@@ -101,7 +102,10 @@ def loads(string, *args, **kw) -> Object:
 
 class ObjectEncoder(json.JSONEncoder):
 
+    "encode into a json string."
+
     def default(self, o) -> str:
+        "return json printable data."
         if isinstance(o, dict):
             return o.items()
         if isinstance(o, Object):
@@ -125,6 +129,7 @@ class ObjectEncoder(json.JSONEncoder):
             return object.__repr__(o)
 
     def encode(self, o) -> str:
+        "return json string."
         return json.JSONEncoder.encode(self, o)
 
     def iterencode(
@@ -132,15 +137,18 @@ class ObjectEncoder(json.JSONEncoder):
                    o,
                    _one_shot=False
                   ) -> str:
+        "piecemale encoding to string."
         return json.JSONEncoder.iterencode(self, o, _one_shot)
 
 
 def dump(*args, **kw) -> None:
+    "write to file."
     kw["cls"] = ObjectEncoder
     return json.dump(*args, **kw)
 
 
 def dumps(*args, **kw) -> str:
+    "write to string."
     kw["cls"] = ObjectEncoder
     return json.dumps(*args, **kw)
 
@@ -149,6 +157,7 @@ def dumps(*args, **kw) -> str:
 
 
 def construct(obj, *args, **kwargs) -> None:
+    "construct from another type."
     if args:
         val = args[0]
         if isinstance(val, zip):
@@ -162,6 +171,7 @@ def construct(obj, *args, **kwargs) -> None:
 
 
 def edit(obj, setter, skip=False) -> None:
+    "edit with a dict and it's values."
     for key, val in items(setter):
         if skip and val == "":
             continue
@@ -184,6 +194,7 @@ def edit(obj, setter, skip=False) -> None:
 
 
 def fmt(obj, args=None, skip=None, plain=False) -> str:
+    "key=value formatted string."
     if args is None:
         args = keys(obj)
     if skip is None:
@@ -207,46 +218,29 @@ def fmt(obj, args=None, skip=None, plain=False) -> str:
 
 
 def fqn(obj) -> str:
+    "full qualified name."
     kin = str(type(obj)).split()[-1][1:-2]
     if kin == "type":
         kin = obj.__name__
     return kin
 
 
-def ident(obj) -> str:
-    return os.path.join(
-                        fqn(obj),
-                        os.path.join(*str(datetime.datetime.now()).split())
-                       )
-
 def items(obj) -> []:
+    "return (key,value) list of object items."
     if isinstance(obj, type({})):
         return obj.items()
     return obj.__dict__.items()
 
 
 def keys(obj) -> []:
+    "list of attributes names."
     if isinstance(obj, type({})):
         return obj.keys()
     return list(obj.__dict__.keys())
 
 
-def name(obj) -> str:
-    typ = type(obj)
-    if isinstance(typ, types.ModuleType):
-        return obj.__name__
-    if '__self__' in dir(obj):
-        return f'{obj.__self__.__class__.__name__}.{obj.__name__}'
-    if '__class__' in dir(obj) and '__name__' in dir(obj):
-        return f'{obj.__class__.__name__}.{obj.__name__}'
-    if '__class__' in dir(obj):
-        return f"{obj.__class__.__module__}.{obj.__class__.__name__}"
-    if '__name__' in dir(obj):
-        return f'{obj.__class__.__name__}.{obj.__name__}'
-    return None
-
-
 def update(obj, data, empty=True) -> None:
+    "update attributes with a key/value dict."
     for key, value in items(data):
         if empty and not value:
             continue
@@ -254,4 +248,5 @@ def update(obj, data, empty=True) -> None:
 
 
 def values(obj) -> []:
+    "list of values."
     return obj.__dict__.values()

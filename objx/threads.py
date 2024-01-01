@@ -13,7 +13,7 @@ import types
 
 
 from .excepts import Error
-from .objects import Object, name
+from .objects import Object
 
 
 def __dir__():
@@ -21,18 +21,12 @@ def __dir__():
        'Repeater',
        'Thread',
        'Timer',
-       'launch'
+       'launch',
+       'name'
     )
 
 
 __all__ = __dir__()
-
-
-def launch(func, *args, **kwargs):
-    nme = kwargs.get("name", name(func))
-    thread = Thread(func, nme, *args, **kwargs)
-    thread.start()
-    return thread
 
 
 class Thread(threading.Thread):
@@ -105,3 +99,25 @@ class Repeater(Timer):
         thr = launch(self.start)
         super().run()
         return thr
+
+
+def launch(func, *args, **kwargs):
+    nme = kwargs.get("name", name(func))
+    thread = Thread(func, nme, *args, **kwargs)
+    thread.start()
+    return thread
+
+
+def name(obj) -> str:
+    typ = type(obj)
+    if isinstance(typ, types.ModuleType):
+        return obj.__name__
+    if '__self__' in dir(obj):
+        return f'{obj.__self__.__class__.__name__}.{obj.__name__}'
+    if '__class__' in dir(obj) and '__name__' in dir(obj):
+        return f'{obj.__class__.__name__}.{obj.__name__}'
+    if '__class__' in dir(obj):
+        return f"{obj.__class__.__module__}.{obj.__class__.__name__}"
+    if '__name__' in dir(obj):
+        return f'{obj.__class__.__name__}.{obj.__name__}'
+    return None
