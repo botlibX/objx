@@ -2,7 +2,7 @@ NAME
 
 ::
 
-   OBJX - object library.
+   OBJX - object library
 
 
 DESCRIPTION
@@ -40,7 +40,7 @@ AUTHOR
 
 ::
 
-   Bart Thate <libbotx@gmail.com>
+   libbot <libbotx@gmail.com>
 
 
 COPYRIGHT

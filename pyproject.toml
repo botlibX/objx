@@ -8,17 +8,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "objx"
-description = "objects"
-version = "6"
+description = "object library."
+version = "20"
 authors = [
     {name = "Bart Thate",email = "libbotx@gmail.com"},
 ]
 readme = "README.rst"
 license = {text="Public Domain"}
-dependencies = [
-    "libobj",
-    "libprg"
-]
 classifiers = [ 
     'Development Status :: 3 - Alpha',
     'License :: Public Domain',
@@ -27,6 +23,9 @@ classifiers = [
     'Topic :: Utilities'
 ]
 
+[project.scripts]
+objx = "objx.__main__:wrapped"
+
 [project.urls]
 "home" = "https://pypi.org/project/objx"
 "bugs" = "https://github.com/botlibx/objx/issues"
@@ -34,19 +33,18 @@ classifiers = [
 
 
 [tool.setuptools]
-script-files = [
-    "bin/objc",
-    "bin/objd",
-    "bin/objs",
-    "bin/objx"
-]
-
 packages = [
     "objx",
-    "objx.mods"
+    "objx.modules"
 ]
 zip-safe=true
 
+
+[tool.setuptools.data-files]
+"share/doc/objx" = [
+    "docs/MANUAL.rst",
+    "docs/README.rst"
+]
 
 [tool.setuptools.exclude-package-data]
 "*" = [
