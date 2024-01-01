@@ -8,8 +8,6 @@
 
 "specification"
 
-"package"
-
 
 from . import *
 

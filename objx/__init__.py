@@ -3,31 +3,61 @@
 # pylint: disable=C,R,E0603,E0402,W0401,W0614,W0611,W0622,W0105
 
 
-"a clean namespace"
+""" Objects Library
+
+    OBJX provides all the tools to program a cli program, such as disk
+    perisistence for configuration files, event handler to handle the
+    client/server connection, code to introspect modules for commands,
+    deferred exception handling to not crash on an error, a parser to
+    parse commandline options and values, etc.
+
+    OBJX provides a demo prgram, it can connect to IRC, fetch and
+    display RSS feeds, take todo notes, keep a shopping list
+    and log text. You can also copy/paste the service file and run
+    it under systemd for 24/7 presence in a IRC channel.
+
+    OBJX is Public Domain.
+
+"""
 
 
+import pathlib
 import json
+import os
+import _thread
+
+
+"defines"
 
 
 def __dir__():
     return (
-            'Object',
-            'construct',
-            'dump',
-            'dumps',
-            'edit',
-            'fmt',
-            'fqn',
-            'items',
-            'keys',
-            'load',
-            'loads',
-            'update',
-            'values',
-           )
+        'Object',
+        'construct',
+        'edit',
+        'fmt',
+        'fqn',
+        'items',
+        'keys',
+        'read',
+        'update',
+        'values',
+        'write'
+    )
 
 
 __all__ = __dir__()
+
+
+lock = _thread.allocate_lock()
+
+
+def cdir(pth) -> None:
+    pth = pathlib.Path(pth)
+    os.makedirs(pth, exist_ok=True)
+
+
+"object"
 
 
 class Object:
@@ -36,6 +66,10 @@ class Object:
     def __contains__(self, key):
         "see if attribute is available."
         return key in dir(self)
+
+    def __dir__(self):
+        "list of keys."
+        return __all__
 
     def __iter__(self):
         "iterate over attributes."
@@ -237,6 +271,21 @@ def keys(obj) -> []:
     if isinstance(obj, type({})):
         return obj.keys()
     return list(obj.__dict__.keys())
+
+
+def read(obj, pth) -> None:
+    "locked read from path."
+    with lock:
+        with open(pth, 'r', encoding='utf-8') as ofile:
+            update(obj, load(ofile))
+
+
+def write(obj, pth) -> None:
+    "locked write to path."
+    with lock:
+        cdir(os.path.dirname(pth))
+        with open(pth, 'w', encoding='utf-8') as ofile:
+            dump(obj, ofile)
 
 
 def update(obj, data, empty=True) -> None:
