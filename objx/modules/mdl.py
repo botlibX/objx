@@ -10,8 +10,8 @@ import datetime
 import time
 
 
-from ..defines import Object, construct, keys
-from ..defines import Event, Fleet, Repeater, laps, launch
+from objx import Object, construct, keys
+from objx import Event, Fleet, Repeater, laps, launch
 
 
 def __dir__():

@@ -9,7 +9,7 @@
 import time
 
 
-from ..defines import Object, fntime, find, laps, sync
+from objx import Object, fntime, find, laps, sync
 
 
 class NoDate(Exception):

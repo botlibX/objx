@@ -6,7 +6,7 @@
 "locate"
 
 
-from ..defines import Storage, find, fmt
+from objx import Storage, find, fmt
 
 
 def fnd(event):

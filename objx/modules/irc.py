@@ -16,9 +16,9 @@ import time
 import _thread
 
 
-from ..defines import Default, Object, edit, fmt, keys
-from ..defines import Client, Command, Error, Event
-from ..defines import byorig, debug, last, launch, sync
+from objx import Default, Object, edit, fmt, keys
+from objx import Client, Command, Error, Event
+from objx import byorig, debug, last, launch, sync
 
 
 Error.filter = ["PING", "PONG", "PRIVMSG"]
