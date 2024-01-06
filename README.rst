@@ -1,8 +1,7 @@
 NAME
 
-::
 
-   OBJX - object library.
+**OBJX** objects library.
 
 
 SYNOPSIS
@@ -22,25 +21,26 @@ SYNOPSIS
 
 DESCRIPTION
 
+::
 
-OBJX provides an objx namespace that allows for easy json save//load
-to/from disk of objects. It provides an "clean namespace" Object class
-that only has dunder methods, so the namespace is not cluttered with
-method names. This makes storing and reading to/from json possible.
+    OBJX provides an objx namespace that allows for easy json save//load
+    to/from disk of objects. It provides an "clean namespace" Object class
+    that only has dunder methods, so the namespace is not cluttered with
+    method names. This makes storing and reading to/from json possible.
 
-OBJX is a python3 library implementing the 'objx' package. It
-provides all the tools to program a unix cli program, such as
-disk perisistence for configuration files, event handler to
-handle the client/server connection, code to introspect modules
-for commands, deferred exception handling to not crash on an
-error, a parser to parse commandline options and values, etc.
+    OBJX is a python3 library implementing the 'objx' package. It
+    provides all the tools to program a unix cli program, such as
+    disk perisistence for configuration files, event handler to
+    handle the client/server connection, code to introspect modules
+    for commands, deferred exception handling to not crash on an
+    error, a parser to parse commandline options and values, etc.
 
-OBJX provides a demo bot, it can connect to IRC, fetch and
-display RSS feeds, take todo notes, keep a shopping list
-and log text. You can also copy/paste the service file and run
-it under systemd for 24/7 presence in a IRC channel.
+    OBJX provides a demo bot, if you also it can connect to IRC, fetch and
+    display RSS feeds, take todo notes, keep a shopping list
+    and log text. You can also copy/paste the service file and run
+    it under systemd for 24/7 presence in a IRC channel.
 
-OBJX is Public Domain.
+    OBJX is Public Domain.
 
 
 INSTALL
@@ -51,7 +51,6 @@ INSTALL
 
 
 USAGE
-
 
 ::
 
@@ -106,6 +105,8 @@ use -v for verbose
 
 start daemon
 
+::
+
     $ objx -d mod=irc,rss
     $ 
 
@@ -115,6 +116,7 @@ CONFIGURATION
 irc
 
 ::
+
     $ objx cfg server=<server>
     $ objx cfg channel=<channel>
     $ objx cfg nick=<nick>
@@ -122,6 +124,7 @@ irc
 sasl
 
 ::
+
     $ objx pwd <nsvnick> <nspass>
     $ objx cfg password=<frompwd>
 
@@ -197,11 +200,13 @@ FILES
 
 AUTHOR
 
+::
 
-Bart Thate <libbotx@gmail.com>
+    Bart Thate <libbotx@gmail.com>
 
 
 COPYRIGHT
 
+::
 
-OBJX is Public Domain.
+    OBJX is Public Domain.
