@@ -181,12 +181,14 @@ replace "<user>" with the user running pipx
     WantedBy=multi-user.target
 
 
-    then run this
+then run this
+
+::
 
     $ mkdir ~/.objx
     $ sudo systemctl enable objx --now
 
-    default channel/server is #objx on localhost
+default channel/server is #objx on localhost
 
 
 FILES
