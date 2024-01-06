@@ -24,7 +24,7 @@ from ..defines import byorig, debug, last, launch, sync
 Error.filter = ["PING", "PONG", "PRIVMSG"]
 
 
-NAME = "sbn"
+NAME = "objx"
 
 
 saylock = _thread.allocate_lock()

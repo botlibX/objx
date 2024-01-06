@@ -10,10 +10,9 @@ A locked read and write method is provides as well as basic dict methods
 put in as function with the object as the first argument. This provides an 
 object with a, no methods, clean namespace to inherit from.
 
-
 basic usage is:
 
-   >>> from objects import Object, read, write
+   >>> from objx import Object, read, write
    >>> o = Object()
    >>> o.a = "b"
    >>> write(o, "test")

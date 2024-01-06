@@ -34,8 +34,9 @@ def __dir__():
 __all__ = __dir__()
 
 
-
 class Handler(Object):
+
+    "event handler"
 
     def __init__(self):
         Object.__init__(self)
@@ -44,6 +45,7 @@ class Handler(Object):
         self.stopped  = threading.Event()
 
     def callback(self, evt) -> None:
+        "run function based on event type."
         func = getattr(self.cbs, evt.type, None)
         if not func:
             evt.ready()
@@ -51,6 +53,7 @@ class Handler(Object):
         evt._thr = launch(func, evt)
  
     def loop(self) -> None:
+        "poll for event, run callback loop." 
         while not self.stopped.is_set():
             try:
                 self.callback(self.poll())
@@ -58,22 +61,29 @@ class Handler(Object):
                 _thread.interrupt_main()
 
     def poll(self):
+        "poll the queue for an event."
         return self.queue.get()
 
     def put(self, evt) -> None:
+        "put and event on the queue."
         self.queue.put_nowait(evt)
 
     def register(self, typ, cbs) -> None:
+        "register function as callback."
         setattr(self.cbs, typ, cbs)
 
     def start(self) -> None:
+        "start event handler loop."
         launch(self.loop)
 
     def stop(self) -> None:
+        "stop event handler loop."
         self.stopped.set()
 
 
 class Event(Default):
+
+    "event to handle."
 
     def __init__(self):
         Default.__init__(self)
@@ -85,18 +95,22 @@ class Event(Default):
         self.txt     = ""
 
     def ready(self):
+        "flag as ready."
         self._ready.set()
 
     def reply(self, txt) -> None:
+        "add to result list."
         self.result.append(txt)
 
     def show(self) -> None:
+        "print result."
         for txt in self.result:
             bot = Fleet.byorig(self.orig) or Fleet.first()
             if bot:
                 bot.say(self.channel, txt)
 
     def wait(self):
+        "wait until event is finished."
         if self._thr:
             self._thr.join()
         self._ready.wait()
