@@ -54,8 +54,11 @@ Cfg.user    = getpass.getuser()
 Storage.wd  = Cfg.wd
 
 
-from objx import modules
-
+try:
+    import objmod as modules
+except Exception as ex:
+    Error.add(ex)
+    modules = None
 
 class Console(Client):
 
