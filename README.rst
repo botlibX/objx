@@ -54,6 +54,7 @@ USAGE
 
 
 ::
+
     objx <cmd> [key=val] 
     objx <cmd> [key==val]
     objx [-c] [-v] [-d]
@@ -61,60 +62,77 @@ USAGE
 
 without any argument the program does nothing
 
-    | $ objx
-    | $
+::
+
+    $ objx
+    $
 
 see list of commands
 
-    | $ objx cmd
-    | cmd,err,mod,req,thr,ver
+::
+    $ objx cmd
+    cmd,err,mod,req,thr,ver
 
 list of modules
 
-    | $ objx mod
-    | cmd,err,fnd,irc,log,mod,req,rss,tdo,thr
+::
+
+    $ objx mod
+    cmd,err,fnd,irc,log,mod,req,rss,tdo,thr
 
 use mod=<name1,name2> to load additional
 modules
 
-    | $ objx cfg mod=irc
+::
+
+    $ objx cfg mod=irc
 
 start a console
 
-    | $ objx -c mod=irc,rss
-    | >
+
+::
+
+    $ objx -c mod=irc,rss
+    >
 
 use -v for verbose
 
-    | $ objx -cv mod=irc
-    | OBJX started CV started Sat Dec 2 17:53:24 2023
-    | >
+
+::
+
+    $ objx -cv mod=irc
+    OBJX started CV started Sat Dec 2 17:53:24 2023
+    >
 
 start daemon
 
-    | $ objx -d mod=irc,rss
-    | $ 
+    $ objx -d mod=irc,rss
+    $ 
 
 
 CONFIGURATION
 
 irc
 
-    | $ objx cfg server=<server>
-    | $ objx cfg channel=<channel>
-    | $ objx cfg nick=<nick>
+::
+    $ objx cfg server=<server>
+    $ objx cfg channel=<channel>
+    $ objx cfg nick=<nick>
 
 sasl
 
-    | $ objx pwd <nsvnick> <nspass>
-    | $ objx cfg password=<frompwd>
+::
+    $ objx pwd <nsvnick> <nspass>
+    $ objx cfg password=<frompwd>
 
 rss
 
-    | $ objx rss <url>
-    | $ objx dpl <url> <item1,item2>
-    | $ objx rem <url>
-    | $ objx nme <url< <name>
+::
+
+    $ objx rss <url>
+    $ objx dpl <url> <item1,item2>
+    $ objx rem <url>
+    $ objx nme <url< <name>
 
 
 COMMANDS
@@ -154,7 +172,7 @@ SYSTEMD
     User=<user>
     Group=<user>
     WorkingDirectory=/home/<user>/.objx
-    ExecStart=/home/<user>/.local/pipx/venvs/objmod/bin/objd
+    ExecStart=/home/<user>/.local/pipx/venvs/objmod/bin/objx -d
     RemainAfterExit=yes
 
     [Install]
