@@ -7,7 +7,7 @@
 
 
 
-from . import fnd, mbx, mdl, req, rst, udp, wsd
+from . import fnd, mbx, mdl, mod, req, rst, udp, wsd
 
 
 def __dir__():
@@ -15,6 +15,7 @@ def __dir__():
         'fnd',
         'mbx',
         'mdl',
+        'mod',
         'req',
         'rst',
         'udp',
