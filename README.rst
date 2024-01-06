@@ -156,11 +156,10 @@ COMMANDS
 
 SYSTEMD
 
+save the following it in /etc/systems/system/objx.service and
+replace "<user>" with the user running pipx
+
 ::
-
-    save the following it in /etc/systems/system/objx.service and
-    replace "<user>" with the user running pipx
-
 
     [Unit]
     Description=objx
@@ -172,7 +171,7 @@ SYSTEMD
     User=<user>
     Group=<user>
     WorkingDirectory=/home/<user>/.objx
-    ExecStart=/home/<user>/.local/pipx/venvs/objmod/bin/objx -d
+    ExecStart=/home/<user>/.local/pipx/venvs/objmod/bin/objx -da
     RemainAfterExit=yes
 
     [Install]
@@ -189,16 +188,20 @@ SYSTEMD
 
 FILES
 
-    | ~/.objx
-    | ~/.local/bin/objx
-    | ~/.local/pipx/venvs/objx/
+::
+
+    ~/.objx
+    ~/.local/bin/objx
+    ~/.local/pipx/venvs/objx/
 
 
 AUTHOR
 
-    Bart Thate <libbotx@gmail.com>
+
+Bart Thate <libbotx@gmail.com>
 
 
 COPYRIGHT
 
-    OBJX is Public Domain.
+
+OBJX is Public Domain.
