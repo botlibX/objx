@@ -7,6 +7,8 @@
 
 
 from .defines import *
+from .defines import __dir__
+
 
 def __dir__():
     return (
