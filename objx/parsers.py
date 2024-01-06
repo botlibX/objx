@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,W0718,W0702
+# pylint: disable=C,R,W0718,W0702,E0402
 
 
 "parsing text"
@@ -12,7 +12,7 @@ import re
 import time as ttime
 
 
-from .default import Default
+from .objects import Default
 
 
 def __dir__():

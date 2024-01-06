@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C0115,C0116,E0402,R0903,E0611
+# pylint: disable=R,C,E0402
 
 
 "log text"
@@ -9,7 +9,7 @@
 import time
 
 
-from ..defines import Object, find, fntime, laps, write
+from ..defines import Object, find, fntime, laps, sync
 
 
 class Log(Object):
@@ -31,5 +31,5 @@ def log(event):
         return
     obj = Log()
     obj.txt = event.rest
-    write(obj)
+    sync(obj)
     event.reply('ok')

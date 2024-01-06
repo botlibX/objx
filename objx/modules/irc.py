@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E1101,W0105,W0718,W0612,E0611
+# pylint: disable=C,R,W0105,W0612,W0718,E0402
 
 
 "internet relay chat"
@@ -18,13 +18,13 @@ import _thread
 
 from ..defines import Default, Object, edit, fmt, keys
 from ..defines import Client, Command, Error, Event
-from ..defines import byorig, debug, last, launch, write
+from ..defines import byorig, debug, last, launch, sync
 
 
 Error.filter = ["PING", "PONG", "PRIVMSG"]
 
 
-NAME = "objx"
+NAME = "sbn"
 
 
 saylock = _thread.allocate_lock()
@@ -573,5 +573,5 @@ def cfg(event):
                    )
     else:
         edit(config, event.sets)
-        write(config, path)
+        sync(config, path)
         event.reply('ok')

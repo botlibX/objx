@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C0103,C0209,C0301,C0115,C0116,W0212,R0903
+# pylint: disable=C,R,W0212,E0402
 
 
 "mailbox"
@@ -11,7 +11,7 @@ import os
 import time
 
 
-from ..defines import Object, find, fmt, fntime, laps, write, update
+from ..defines import Object, find, fmt, fntime, laps, sync, update
 
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -128,7 +128,7 @@ def mbx(event):
             if payload.get_content_type() == 'text/plain':
                 o.text += payload.get_payload()
         o.text = o.text.replace("\\n", "\n")
-        write(o)
+        sync(o)
         nr += 1
     if nr:
         event.reply("ok %s" % nr)

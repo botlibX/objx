@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C0115,C0116,R0903,W0105,E0402,E0611
+# pylint: disable=C,R,E0402
 
 
 "todo list"
@@ -9,7 +9,7 @@
 import time
 
 
-from ..defines import Object, fntime, find, laps, write
+from ..defines import Object, fntime, find, laps, sync
 
 
 class NoDate(Exception):
@@ -33,7 +33,7 @@ def dne(event):
     for fnm, obj in find('todo', selector):
         nmr += 1
         obj.__deleted__ = True
-        write(obj, fnm)
+        sync(obj, fnm)
         event.reply('ok')
         break
     if not nmr:
@@ -52,5 +52,5 @@ def tdo(event):
         return
     obj = Todo()
     obj.txt = event.rest
-    write(obj)
+    sync(obj)
     event.reply('ok')

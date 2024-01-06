@@ -1,25 +1,17 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E0603,E0402,W0401,W0614,W0611,W0622,W0105
-# This file is placed in the Public Domain.
-#
-# pylint: disable=E0603,E0402,W0401,W0614,W0611,W0622
+# pylint: disable=C,R,W0401,E0402
 
 
 "specification"
 
 
-from . import *
-
-
 from .brokers import *
 from .clients import *
 from .command import *
-from .default import *
 from .excepts import *
 from .handler import *
-from .locates import *
-from .message import *
+from .objects import *
 from .parsers import *
 from .storage import *
 from .threads import *
@@ -30,18 +22,15 @@ def __object__():
             'Default',
             'Object',
             'construct',
-            'dump',
-            'dumps',
             'edit',
             'fmt',
             'fqn',
-            'ident',
             'items',
             'keys',
-            'load',
-            'loads',
+            'read',
             'update',
             'values',
+            'write'
            )
 
 
@@ -51,6 +40,8 @@ def __dir__():
         'Command',
         'Error',
         'Event',
+        'Fleet',
+        'Repeater',
         'Storage',
         'byorig',
         'cdir',
@@ -62,8 +53,6 @@ def __dir__():
         'launch',
         'last',
         'parse_command',
-        'read',
         'sync',
-        'write',
         'Storage',
     ) + __object__()

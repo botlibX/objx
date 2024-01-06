@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,W0612,W0201,E0611
+# pylint: disable=C,R,W0201,W0612,E0402
 
 
 "rich site syndicate"
@@ -20,7 +20,7 @@ from urllib.parse import quote_plus, urlencode
 
 from ..defines import Default, Object, fmt, update
 from ..defines import Fleet, Repeater
-from ..defines import fntime, find, launch, laps, last, write
+from ..defines import fntime, find, launch, laps, last, sync
 
 
 def init():
@@ -100,10 +100,10 @@ class Fetcher(Object):
                     Fetcher.seen.urls.append(uurl)
                 counter += 1
                 if self.dosave:
-                    write(fed)
+                    sync(fed)
                 res.append(fed)
         if res:
-            write(Fetcher.seen, Fetcher.seenfn)
+            sync(Fetcher.seen, Fetcher.seenfn)
         txt = ''
         feedname = getattr(feed, 'name', None)
         if feedname:
@@ -220,7 +220,7 @@ def dpl(event):
     for fnm, feed in find('rss', {'rss': event.args[0]}):
         if feed:
             update(feed, setter)
-            write(feed)
+            sync(feed)
     event.reply('ok')
 
 
@@ -232,7 +232,7 @@ def nme(event):
     for fnm, feed in find('rss', selector):
         if feed:
             feed.name = event.args[1]
-            write(feed)
+            sync(feed)
     event.reply('ok')
 
 
@@ -244,7 +244,7 @@ def rem(event):
     for fnm, feed in find('rss', selector):
         if feed:
             feed.__deleted__ = True
-            write(feed, fnm)
+            sync(feed, fnm)
     event.reply('ok')
 
 
@@ -269,5 +269,5 @@ def rss(event):
             return
     feed = Rss()
     feed.rss = event.args[0]
-    write(feed)
+    sync(feed)
     event.reply('ok')

@@ -77,7 +77,7 @@
 | poging tot nieuw start
 | de arc types (hier selecteren om einde aan de rest te noemen)
 | boven gelegd woord (zeewier in vissenbak)
-| het 4 leg systeem (woord gelegd op schepping .. voor making)
+| het 4 leg zysteem (woord gelegd op schepping .. voor making)
 | de immer zijnde dreiging tot einde
 | de weigerende mens hier toe (de weerwil)
 | scheppers vragen

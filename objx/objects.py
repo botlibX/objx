@@ -1,22 +1,27 @@
 # This file is placed in the Public Domain.
 #
-# pylint: disable=C,R,E0603,E0402,W0401,W0614,W0611,W0622,W0105
+# pylint: disable=C,R,W0105
 
 
-""" Objects Library
+"""an object with a clean namespace
 
-    OBJX provides all the tools to program a cli program, such as disk
-    perisistence for configuration files, event handler to handle the
-    client/server connection, code to introspect modules for commands,
-    deferred exception handling to not crash on an error, a parser to
-    parse commandline options and values, etc.
+This module provides an Object class and it's json encoder/decoder.
+A locked read and write method is provides as well as basic dict methods
+put in as function with the object as the first argument. This provides an 
+object with a, no methods, clean namespace to inherit from.
 
-    OBJX provides a demo prgram, it can connect to IRC, fetch and
-    display RSS feeds, take todo notes, keep a shopping list
-    and log text. You can also copy/paste the service file and run
-    it under systemd for 24/7 presence in a IRC channel.
 
-    OBJX is Public Domain.
+basic usage is:
+
+   >>> from objects import Object, read, write
+   >>> o = Object()
+   >>> o.a = "b"
+   >>> write(o, "test")
+   >>> oo = Object()
+   >>> read(oo, "test")
+   >>> oo
+   {"a": "b"}  
+
 
 """
 
@@ -27,12 +32,11 @@ import os
 import _thread
 
 
-"defines"
-
-
 def __dir__():
     return (
+        'Default',
         'Object',
+        'cdir',
         'construct',
         'edit',
         'fmt',
@@ -53,23 +57,20 @@ lock = _thread.allocate_lock()
 
 
 def cdir(pth) -> None:
+    " create directory "
+    if os.path.exists(pth):
+        return
     pth = pathlib.Path(pth)
     os.makedirs(pth, exist_ok=True)
 
 
-"object"
-
-
 class Object:
 
+    "a no methods base class to provide a clean namespace."
 
     def __contains__(self, key):
         "see if attribute is available."
         return key in dir(self)
-
-    def __dir__(self):
-        "list of keys."
-        return __all__
 
     def __iter__(self):
         "iterate over attributes."
@@ -88,7 +89,18 @@ class Object:
         return str(self.__dict__)
 
 
-"decoder"
+class Default(Object):
+
+    "default values"
+
+    __slots__ = ("__default__",)
+
+    def __init__(self):
+        Object.__init__(self)
+        self.__default__ = ""
+
+    def __getattr__(self, key):
+        return self.__dict__.get(key, self.__default__)
 
 
 class ObjectDecoder(json.JSONDecoder):
@@ -129,9 +141,6 @@ def loads(string, *args, **kw) -> Object:
     kw["cls"] = ObjectDecoder
     kw["object_hook"] = hook
     return json.loads(string, *args, **kw)
-
-
-"encoder"
 
 
 class ObjectEncoder(json.JSONEncoder):
@@ -280,14 +289,6 @@ def read(obj, pth) -> None:
             update(obj, load(ofile))
 
 
-def write(obj, pth) -> None:
-    "locked write to path."
-    with lock:
-        cdir(os.path.dirname(pth))
-        with open(pth, 'w', encoding='utf-8') as ofile:
-            dump(obj, ofile)
-
-
 def update(obj, data, empty=True) -> None:
     "update attributes with a key/value dict."
     for key, value in items(data):
@@ -299,3 +300,11 @@ def update(obj, data, empty=True) -> None:
 def values(obj) -> []:
     "list of values."
     return obj.__dict__.values()
+
+
+def write(obj, pth) -> None:
+    "locked write to path."
+    with lock:
+        cdir(os.path.dirname(pth))
+        with open(pth, 'w', encoding='utf-8') as ofile:
+            dump(obj, ofile)
