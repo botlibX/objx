@@ -1,7 +1,8 @@
 NAME
 
+::
 
-**OBJX** objects library.
+    **OBJX** objects library.
 
 
 SYNOPSIS
@@ -51,6 +52,9 @@ INSTALL
 
 
 USAGE
+
+
+synopsis
 
 ::
 
