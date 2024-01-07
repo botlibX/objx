@@ -1,7 +1,7 @@
 # This file is placed in the Public Domain.
 #
 #
-# pylint: disable=C,R
+# pylint: disable=C,R,W0401,W0614
 
 
 "object interface test"
