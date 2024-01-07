@@ -8,6 +8,7 @@
 
 
 import objx
+import os
 import unittest
 
 
@@ -27,6 +28,9 @@ attributes = [
     'values',
     'write'
 ]
+
+
+path = os.path.join(".test", "test")
 
 
 class TestObject(unittest.TestCase):
@@ -74,7 +78,7 @@ class TestObject(unittest.TestCase):
     def test_disk(self):
         obj = Object()
         obj.a = "b"
-        write(obj, "test")
+        write(obj, path)
         ooo = Object()
-        read(ooo, "test")
+        read(ooo, path)
         self.assertEqual(ooo.a, "b")
