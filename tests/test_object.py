@@ -11,7 +11,7 @@ import objx
 import unittest
 
 
-from objx import Object
+from objx import *
 
 
 attributes = [
@@ -40,25 +40,41 @@ class TestObject(unittest.TestCase):
         self.assertTrue(att)
 
     def test_construct(self):
-        self.assertTrue(True)
+        data = {"a": "b"}
+        obj = Object()
+        construct(obj, data)
+        self.assertEqual(obj.a, "b")
 
     def test_edit(self):
-        self.assertTrue(True)
+        obj = Object()
+        obj.a = "b"
+        data = {"a": "c"}
+        edit(obj, data)
+        self.assertEqual(obj.a, "c")
 
     def test_fmt(self):
-        self.assertTrue(True)
+        obj = Object()
+        obj.a = "b"
+        self.assertEqual(fmt(obj), "a=b")
 
     def test_fqn(self):
-        self.assertTrue(True)
+        obj = Object()
+        self.assertEqual(fqn(obj), "objx.objects.Object")
 
     def test_items(self):
-        self.assertTrue(True)
+        obj = Object()
+        obj.a = "b"
+        self.assertEqual(list(items(obj)), [("a", "b")])
 
     def test_keys(self):
-        self.assertTrue(True)
+        obj = Object()
+        obj.a = "b"
+        self.assertEqual(keys(obj), ["a"])
 
-    def test_read(self):
-        self.assertTrue(True)
-
-    def test_write(self):
-        self.assertTrue(True)
+    def test_disk(self):
+        obj = Object()
+        obj.a = "b"
+        write(obj, "test")
+        ooo = Object()
+        read(ooo, "test")
+        self.assertEqual(ooo.a, "b")
