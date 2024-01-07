@@ -186,12 +186,9 @@
 """
 
 
-__author__ = "Bart Thate <libbotx@gmail.com>"
-__version__ = 1
-
-
-import random
+from random import SystemRandom
 
 
 def wsd(event):
-    event.reply(random.choice(__doc__.split("\n")).strip()[2:])
+    rand = SystemRandom()
+    event.reply(rand.choice(__doc__.split("\n")).strip()[2:])
