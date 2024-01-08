@@ -23,6 +23,12 @@ classifiers = [
     'Topic :: Utilities'
 ]
 
+
+[project.scripts]
+sbn = "objx.__main__:wrapped"
+sbnd = "objx.__main__:daemoned"
+
+
 [project.urls]
 "home" = "https://pypi.org/project/objx"
 "bugs" = "https://github.com/botlibx/objx/issues"
@@ -30,9 +36,6 @@ classifiers = [
 
 
 [tool.setuptools]
-script-files = [
-    "bin/objx",
-]
 packages = [
     "objx",
 ]

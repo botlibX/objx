@@ -3,7 +3,7 @@
 # pylint: disable=C,R,W0401,W0614,E0402
 
 
-"object library"
+"specification"
 
 
 from .brokers import *
