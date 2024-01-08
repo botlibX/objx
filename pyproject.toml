@@ -25,8 +25,8 @@ classifiers = [
 
 
 [project.scripts]
-sbn = "objx.__main__:wrapped"
-sbnd = "objx.__main__:daemoned"
+objx = "objx.__main__:wrapped"
+objd = "objx.__main__:daemoned"
 
 
 [project.urls]
@@ -38,14 +38,14 @@ sbnd = "objx.__main__:daemoned"
 [tool.setuptools]
 packages = [
     "objx",
+    "objx.modules"
 ]
 zip-safe=true
 
 
 [tool.setuptools.data-files]
 "share/doc/objx" = [
-    "docs/MANUAL.rst",
-    "docs/README.rst"
+    "README.rst"
 ]
 
 [tool.setuptools.exclude-package-data]
