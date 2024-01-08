@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "objx"
-description = "object library."
+description = "objects library."
 version = "30"
 authors = [
     {name = "Bart Thate",email = "libbotx@gmail.com"},

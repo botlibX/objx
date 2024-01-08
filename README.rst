@@ -2,7 +2,7 @@ NAME
 
 ::
 
-    **OBJX** objects library.
+    OBJX - objects library.
 
 
 SYNOPSIS
@@ -83,8 +83,7 @@ list of modules
     $ objx mod
     cmd,err,fnd,irc,log,mod,req,rss,tdo,thr
 
-use mod=<name1,name2> to load additional
-modules
+use mod=<name1,name2> to load additional modules
 
 ::
 
@@ -111,7 +110,7 @@ start daemon
 
 ::
 
-    $ objx -d mod=irc,rss
+    $ objd
     $ 
 
 
@@ -169,7 +168,7 @@ replace "<user>" with the user running pipx
 ::
 
     [Unit]
-    Description=objx
+    Description=objects daemon
     Requires=network.target
     After=network.target
 
@@ -201,6 +200,7 @@ FILES
 
     ~/.objx
     ~/.local/bin/objx
+    ~/.local/bin/objd
     ~/.local/pipx/venvs/objx/
 
 
