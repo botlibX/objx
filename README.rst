@@ -178,7 +178,7 @@ replace "<user>" with the user running pipx
     User=<user>
     Group=<user>
     WorkingDirectory=/home/<user>/.objx
-    ExecStart=/home/<user>/.local/pipx/venvs/objmod/bin/objx -da
+    ExecStart=/home/<user>/.local/pipx/venvs/objx/bin/objd
     RemainAfterExit=yes
 
     [Install]
